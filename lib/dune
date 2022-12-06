@@ -1,0 +1,4 @@
+(library
+ (name petitc)
+ (inline_tests)
+ (preprocess (pps ppx_inline_test)))

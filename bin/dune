@@ -1,0 +1,5 @@
+(executable
+ (public_name petitc)
+ (name petitc)
+ (libraries petitc)
+ (promote (into ..) (until-clean)))
