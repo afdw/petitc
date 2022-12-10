@@ -1,4 +1,4 @@
-(lang dune 3.6)
+(lang dune 2.2)
 
 (name petitc)
 
@@ -11,8 +11,10 @@
 
 (maintainers "Anton Danilkin")
 
+(using menhir 2.1)
+
 (package
  (name petitc)
  (synopsis "Petit C compiler")
  (description "Petit C compiler")
- (depends ocaml dune ppx_inline_test))
+ (depends ocaml dune ppx_inline_test menhir ppx_import ppx_deriving))

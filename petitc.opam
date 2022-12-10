@@ -7,13 +7,10 @@ authors: ["Anton Danilkin"]
 homepage: "https://github.com/afdw/petitc"
 bug-reports: "https://github.com/afdw/petitc/issues"
 depends: [
-  "ocaml"
-  "dune" {>= "3.6"}
-  "ppx_inline_test"
-  "odoc" {with-doc}
+  "ocaml" "dune" "ppx_inline_test" "menhir" "ppx_import" "ppx_deriving"
 ]
 build: [
-  ["dune" "subst"] {dev}
+  ["dune" "subst"] {pinned}
   [
     "dune"
     "build"

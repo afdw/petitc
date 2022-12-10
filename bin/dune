@@ -2,4 +2,5 @@
  (public_name petitc)
  (name petitc)
  (libraries petitc)
- (promote (into ..) (until-clean)))
+ (promote (into ..) (until-clean))
+ (preprocess (staged_pps ppx_import ppx_deriving.show)))
