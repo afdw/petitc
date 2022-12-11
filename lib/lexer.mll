@@ -12,30 +12,30 @@ rule token = parse
   | "/*" { lexbuf |> comment }
   | eof { EOF }
   | (['a' - 'z' 'A' - 'Z' '_'] ['a' - 'z' 'A' - 'Z' '0' - '9' '_']*) as s {
-      match s with
-      | "bool" -> BOOL
-      | "break" -> BREAK
-      | "continue" -> CONTINUE
-      | "else" -> ELSE
-      | "false" -> FALSE
-      | "for" -> FOR
-      | "if" -> IF
-      | "int" -> INT
-      | "NULL" -> NULL
-      | "return" -> RETURN
-      | "sizeof" -> SIZEOF
-      | "true" -> TRUE
-      | "void" -> VOID
-      | "while" -> WHILE
-      | _ -> IDENT s
-    }
-  | ('0' | (['1' - '9'] ['0' - '9']*)) as s { LIT (int_of_string s) }
-  | "'" ([^ '\\' '\''] as c) "'" { LIT (int_of_char c) }
-  | "'\\\\'" { LIT (int_of_char '\\') }
-  | "'\\''" { LIT (int_of_char '\'') }
-  | "'\\n'" { LIT (int_of_char '\n') }
-  | "'\\t'" { LIT (int_of_char '\t') }
-  | "#include" " "* "<" ([^ '>' '\n']* as s) ">\n" { INCLUDE s }
+    match s with
+    | "bool" -> BOOL
+    | "break" -> BREAK
+    | "continue" -> CONTINUE
+    | "else" -> ELSE
+    | "false" -> FALSE
+    | "for" -> FOR
+    | "if" -> IF
+    | "int" -> INT
+    | "NULL" -> NULL
+    | "return" -> RETURN
+    | "sizeof" -> SIZEOF
+    | "true" -> TRUE
+    | "void" -> VOID
+    | "while" -> WHILE
+    | _ -> IDENT s
+  }
+  | ('0' | (['1' - '9'] ['0' - '9']*)) as s { LIT (Int64.of_string s) }
+  | "'" ([^ '\\' '\''] as c) "'" { LIT (int_of_char c |> Int64.of_int) }
+  | "'\\\\'" { LIT (int_of_char '\\' |> Int64.of_int) }
+  | "'\\''" { LIT (int_of_char '\'' |> Int64.of_int) }
+  | "'\\n'" { LIT (int_of_char '\n' |> Int64.of_int) }
+  | "'\\t'" { LIT (int_of_char '\t' |> Int64.of_int) }
+  | "#include" " "* "<" ([^ '>' '\n']* as s) ">\n" { lexbuf |> Lexing.new_line; INCLUDE s }
   | '(' { LPAREN }
   | ')' { RPAREN }
   | '[' { LBRACKET }

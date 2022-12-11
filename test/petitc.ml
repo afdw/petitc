@@ -8,9 +8,9 @@ let test_compilation ~(stop_after : stop_after) ~(input_filename : string) : uni
   let actual_output = Utils.read_all (open_in_bin actual_output_filename) in
   assert (
     if actual_output <> expected_output then (
-      Printf.printf "Expected:\n";
+      Printf.printf "Expected (length %d):\n" (expected_output |> String.length);
       Printf.printf "%s" expected_output;
-      Printf.printf "Actual:\n";
+      Printf.printf "Actual (length %d):\n" (actual_output |> String.length);
       Printf.printf "%s" actual_output
     );
     actual_output = expected_output
@@ -28,3 +28,6 @@ let () =
 
 let () =
   test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/tokens.c"
+
+let () =
+  test_compilation ~stop_after:Stop_after_parse ~input_filename:"../../../test/parsing.c"
