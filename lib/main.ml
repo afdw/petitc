@@ -25,29 +25,24 @@ let wrap_lexbuf_errors (type a) (lexbuf : Lexing.lexbuf) (f : unit -> a) : a =
   | Parser.Error ->
     raise (Compilation_error (lexbuf |> Lexing.lexeme_start_p, "parsing error"))
 
-let main ~(stop_after : stop_after) ~(input_filenames : string list) ~(output_filename : string) : unit =
+let main ~(stop_after : stop_after) ~(input_filename : string) ~(output_filename : string) : unit =
   let output_channel = open_out_bin output_filename in
   let output_formatter = Format.formatter_of_out_channel output_channel in
   Format.pp_set_margin output_formatter 120;
-  let files = input_filenames |> List.map (fun input_filename ->
-    let lexbuf = Lexing.from_channel (open_in_bin input_filename) in
-    Lexing.set_filename lexbuf input_filename;
-    lexbuf.lex_start_p <- lexbuf.lex_curr_p;
-    if stop_after = Stop_after_lex then (
-      let continue = ref true in
-      while !continue do
-        let position = lexbuf |> Lexing.lexeme_start_p in
-        let token = wrap_lexbuf_errors lexbuf (fun () -> lexbuf |> Lexer.token) in
-        Format.fprintf output_formatter "%a: %a@." Utils.pp_position position Lexer.pp_token token;
-        if token = Lexer.EOF then continue := false
-      done;
-      {
-        Ast.file_func_decls = [];
-      }
-    ) else (
-      wrap_lexbuf_errors lexbuf (fun () -> Parser.file Lexer.token lexbuf)
-    )
-  ) in
-  if stop_after = Stop_after_parse then
-    Format.fprintf output_formatter "%a@." (Format.pp_print_list ~pp_sep:Format.pp_print_newline Ast.pp_file) files;
+  let lexbuf = Lexing.from_channel (open_in_bin input_filename) in
+  Lexing.set_filename lexbuf input_filename;
+  lexbuf.lex_start_p <- lexbuf.lex_curr_p;
+  if stop_after = Stop_after_lex then (
+    let continue = ref true in
+    while !continue do
+      let position = lexbuf |> Lexing.lexeme_start_p in
+      let token = wrap_lexbuf_errors lexbuf (fun () -> lexbuf |> Lexer.token) in
+      Format.fprintf output_formatter "%a: %a@." Utils.pp_position position Lexer.pp_token token;
+      if token = Lexer.EOF then continue := false
+    done
+  ) else (
+    let file = wrap_lexbuf_errors lexbuf (fun () -> Parser.file Lexer.token lexbuf) in
+    if stop_after = Stop_after_parse then
+      Format.fprintf output_formatter "%a@." Ast.pp_file file
+  );
   close_out output_channel
