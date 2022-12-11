@@ -49,6 +49,7 @@ type bin_op =
 
 type expr_desc =
   | Expr_desc_var of string
+  | Expr_desc_call of string * expr list
   | Expr_desc_const of const
   | Expr_desc_un_op of un_op * expr
   | Expr_desc_bin_op of bin_op * expr * expr
@@ -59,7 +60,7 @@ and expr = {
   expr_desc : expr_desc;
 } [@@deriving show]
 
-and instr_desc =
+type instr_desc =
   | Instr_desc_expr of expr
   | Instr_desc_block of instr_decl list
   | Instr_desc_if of expr * instr * instr

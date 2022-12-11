@@ -12,3 +12,6 @@ let read_all (channel : in_channel) : string =
 let pp_position (formatter : Format.formatter) (position : Lexing.position) : unit =
   let c = position.pos_cnum - position.pos_bol + 1 in
   Format.fprintf formatter "File \"%s\", line %d, characters %d-%d" position.pos_fname position.pos_lnum (c - 1) c
+
+let show_typ (position : Lexing.position) : string =
+  Format.asprintf "%a" pp_position position
