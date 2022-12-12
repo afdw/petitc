@@ -76,13 +76,8 @@ type bin_op =
   | Bin_op_le
   | Bin_op_gt
   | Bin_op_ge
-  | Bin_op_add_int_int
-  | Bin_op_add_int_pointer
-  | Bin_op_add_pointer_int
-  | Bin_op_sub_int_int
-  | Bin_op_sub_int_pointer
-  | Bin_op_sub_pointer_int
-  | Bin_op_sub_pointer_pointer
+  | Bin_op_add
+  | Bin_op_sub
   | Bin_op_mul
   | Bin_op_div
   | Bin_op_mod
@@ -180,7 +175,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       {
         expr_typ = Typ_int;
         expr_desc = Expr_desc_bin_op (
-          Bin_op_sub_int_int,
+          Bin_op_sub,
           { expr_typ = Typ_int; expr_desc = Expr_desc_const (Const_int 0L) },
           expr_1
         );
@@ -314,8 +309,8 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         expr_desc = Expr_desc_bin_op (
           (
             match ast_bin_op with
-            | Ast.Bin_op_add -> Bin_op_add_int_int
-            | Ast.Bin_op_sub -> Bin_op_sub_int_int
+            | Ast.Bin_op_add -> Bin_op_add
+            | Ast.Bin_op_sub -> Bin_op_sub
             | Ast.Bin_op_mul -> Bin_op_mul
             | Ast.Bin_op_div -> Bin_op_div
             | Ast.Bin_op_mod -> Bin_op_mod
@@ -335,8 +330,8 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         expr_desc = Expr_desc_bin_op (
           (
             match ast_bin_op with
-            | Ast.Bin_op_add -> Bin_op_add_int_pointer
-            | Ast.Bin_op_sub -> Bin_op_sub_int_pointer
+            | Ast.Bin_op_add -> Bin_op_add
+            | Ast.Bin_op_sub -> Bin_op_sub
             | _ -> assert false
           ),
           {
@@ -358,8 +353,8 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         expr_desc = Expr_desc_bin_op (
           (
             match ast_bin_op with
-            | Ast.Bin_op_add -> Bin_op_add_pointer_int
-            | Ast.Bin_op_sub -> Bin_op_sub_pointer_int
+            | Ast.Bin_op_add -> Bin_op_add
+            | Ast.Bin_op_sub -> Bin_op_sub
             | _ -> assert false
           ),
           expr_1,
@@ -378,7 +373,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         expr_typ = Typ_int;
         expr_desc = Expr_desc_bin_op (
           Bin_op_div,
-          { expr_typ = Typ_int; expr_desc = Expr_desc_bin_op (Bin_op_sub_pointer_pointer, expr_1, expr_2) },
+          { expr_typ = Typ_int; expr_desc = Expr_desc_bin_op (Bin_op_sub, expr_1, expr_2) },
           { expr_typ = Typ_int; expr_desc = Expr_desc_const (Const_int 8L) }
         );
       }
