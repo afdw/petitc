@@ -65,7 +65,7 @@ type instr_desc =
   | Instr_desc_block of instr_decl list
   | Instr_desc_if of expr * instr * instr
   | Instr_desc_while of expr * instr
-  | Instr_desc_for of expr option * expr list * instr
+  | Instr_desc_for of expr * expr list * instr
   | Instr_desc_return of expr option
   | Instr_desc_break
   | Instr_desc_continue

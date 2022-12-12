@@ -143,7 +143,14 @@ instr_desc:
   | WHILE; LPAREN; cond = expr; RPAREN; body = instr { Instr_desc_while (cond, body) }
   | FOR; LPAREN; var_decl = var_decl?; SEMICOLON; cond = expr?; SEMICOLON;
     steps = separated_list(COMMA, expr); RPAREN; body = instr {
-    let instr_desc_for = Instr_desc_for (cond, steps, body) in
+    let instr_desc_for = Instr_desc_for (
+      cond |> Option.value ~default:{
+        expr_loc = (Lexing.dummy_pos, Lexing.dummy_pos);
+        expr_desc = Expr_desc_const Const_true;
+      },
+      steps,
+      body
+    ) in
     match var_decl with
     | None -> instr_desc_for
     | Some var_decl ->

@@ -225,21 +225,21 @@
                             File "../../../test/parsing.c", line 21, characters 5-6);
                            instr_desc =
                            (Ast.Instr_desc_for (
-                              (Some { Ast.expr_loc =
-                                      (File "../../../test/parsing.c", line 19, characters 20-21,
-                                       File "../../../test/parsing.c", line 19, characters 26-27);
-                                      expr_desc =
-                                      (Ast.Expr_desc_bin_op (Ast.Bin_op_lt,
-                                         { Ast.expr_loc =
-                                           (File "../../../test/parsing.c", line 19, characters 20-21,
-                                            File "../../../test/parsing.c", line 19, characters 21-22);
-                                           expr_desc = (Ast.Expr_desc_var "x") },
-                                         { Ast.expr_loc =
-                                           (File "../../../test/parsing.c", line 19, characters 24-25,
-                                            File "../../../test/parsing.c", line 19, characters 26-27);
-                                           expr_desc = (Ast.Expr_desc_const (Ast.Const_int 10L)) }
-                                         ))
-                                      }),
+                              { Ast.expr_loc =
+                                (File "../../../test/parsing.c", line 19, characters 20-21,
+                                 File "../../../test/parsing.c", line 19, characters 26-27);
+                                expr_desc =
+                                (Ast.Expr_desc_bin_op (Ast.Bin_op_lt,
+                                   { Ast.expr_loc =
+                                     (File "../../../test/parsing.c", line 19, characters 20-21,
+                                      File "../../../test/parsing.c", line 19, characters 21-22);
+                                     expr_desc = (Ast.Expr_desc_var "x") },
+                                   { Ast.expr_loc =
+                                     (File "../../../test/parsing.c", line 19, characters 24-25,
+                                      File "../../../test/parsing.c", line 19, characters 26-27);
+                                     expr_desc = (Ast.Expr_desc_const (Ast.Const_int 10L)) }
+                                   ))
+                                },
                               [{ Ast.expr_loc =
                                  (File "../../../test/parsing.c", line 19, characters 28-29,
                                   File "../../../test/parsing.c", line 19, characters 31-32);
