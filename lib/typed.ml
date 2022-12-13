@@ -8,15 +8,30 @@ let empty_path =
 let path_append (component : string) (path : path) =
   { path_components = path.path_components @ [component] }
 
+let simplified_pp_path = ref false
+
 let pp_path (formatter : Format.formatter) (path : path) : unit =
+  if !simplified_pp_path && path.path_components <> [] then
+    Format.fprintf formatter "%s" (path.path_components |> List.rev |> List.hd)
+  else
+    Format.pp_print_list
+      ~pp_sep:(fun formatter () -> Format.fprintf formatter "::@,")
+      Format.pp_print_string
+      formatter
+      path.path_components
+
+let show_path (path : path) : string =
+  Format.asprintf "%a" pp_path path
+
+let pp_path_strict (formatter : Format.formatter) (path : path) : unit =
   Format.pp_print_list
-    ~pp_sep:(fun formatter () -> Format.pp_print_string formatter "::")
+    ~pp_sep:(fun formatter () -> Format.fprintf formatter "::")
     Format.pp_print_string
     formatter
     path.path_components
 
-let show_path (path : path) : string =
-  Format.asprintf "%a" pp_path path
+let show_path_strict (path : path) : string =
+  Format.asprintf "%a" pp_path_strict path
 
 exception Error of Lexing.position * path * string
 
@@ -114,12 +129,68 @@ type expr_desc =
   | Expr_desc_const of const
   | Expr_desc_un_op of un_op * expr
   | Expr_desc_bin_op of bin_op * expr * expr
-  [@@deriving show]
 
 and expr = {
   expr_typ : typ;
   expr_desc : expr_desc;
-} [@@deriving show]
+}
+
+let rec pp_expr_desc (formatter : Format.formatter) (expr_desc : expr_desc) : unit =
+  match expr_desc with
+  | Expr_desc_var path -> Format.fprintf formatter "%a" pp_path path
+  | Expr_desc_call (path, arg_exprs) ->
+    Format.fprintf formatter "%a(%a)"
+    pp_path path
+    (
+      Format.pp_print_list
+        ~pp_sep:(fun formatter () -> Format.fprintf formatter ",@ ")
+        pp_expr
+    ) arg_exprs
+  | Expr_desc_const Const_null -> Format.fprintf formatter "NULL"
+  | Expr_desc_const (Const_int n) -> Format.fprintf formatter "%Ld" n
+  | Expr_desc_un_op (Un_op_not, expr_1) -> Format.fprintf formatter "!%a" pp_expr expr_1
+  | Expr_desc_un_op (Un_op_pre_incr, expr_1) -> Format.fprintf formatter "--%a" pp_expr expr_1
+  | Expr_desc_un_op (Un_op_pre_decr, expr_1) -> Format.fprintf formatter "--%a" pp_expr expr_1
+  | Expr_desc_un_op (Un_op_post_incr, expr_1) -> Format.fprintf formatter "%a++" pp_expr expr_1
+  | Expr_desc_un_op (Un_op_post_decr, expr_1) -> Format.fprintf formatter "%a++" pp_expr expr_1
+  | Expr_desc_un_op (Un_op_deref, expr_1) -> Format.fprintf formatter "*%a" pp_expr expr_1
+  | Expr_desc_bin_op (Bin_op_eq, expr_1, expr_2) ->
+    Format.fprintf formatter "%a == %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_ne, expr_1, expr_2) ->
+    Format.fprintf formatter "%a != %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_lt, expr_1, expr_2) ->
+    Format.fprintf formatter "%a < %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_le, expr_1, expr_2) ->
+    Format.fprintf formatter "%a <= %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_gt, expr_1, expr_2) ->
+    Format.fprintf formatter "%a > %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_ge, expr_1, expr_2) ->
+    Format.fprintf formatter "%a >= %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_add, expr_1, expr_2) ->
+    Format.fprintf formatter "%a + %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_sub, expr_1, expr_2) ->
+    Format.fprintf formatter "%a - %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_mul, expr_1, expr_2) ->
+    Format.fprintf formatter "%a * %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_div, expr_1, expr_2) ->
+    Format.fprintf formatter "%a / %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_mod, expr_1, expr_2) ->
+    Format.fprintf formatter "%a %% %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_and, expr_1, expr_2) ->
+    Format.fprintf formatter "%a && %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_or, expr_1, expr_2) ->
+    Format.fprintf formatter "%a || %a" pp_expr expr_1 pp_expr expr_2
+  | Expr_desc_bin_op (Bin_op_assign, expr_1, expr_2) ->
+    Format.fprintf formatter "%a = %a" pp_expr expr_1 pp_expr expr_2
+
+and pp_expr (formatter : Format.formatter) (expr : expr) : unit =
+  Format.fprintf formatter "(@[%a@]@ : %a)" pp_expr_desc expr.expr_desc pp_typ expr.expr_typ
+
+let show_expr_desc (expr_desc : expr_desc) : string =
+  Format.asprintf "%a" pp_expr_desc expr_desc
+
+let show_expr (expr : expr) : string =
+  Format.asprintf "%a" pp_expr expr
 
 let expr_as_lvalue (expr : expr) : expr option =
   match expr.expr_desc with
@@ -162,7 +233,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
           raise (Error (
             fst ast_expr.expr_loc,
             env.env_scope_path,
-            Format.asprintf "argument #%d to the function `%a` has type %a instead of %a"
+            Format.asprintf "argument #%d to the function `%a`@ has type %a instead of %a"
               i pp_path path pp_typ actual_typ pp_typ expected_typ
           ));
       done;
@@ -182,7 +253,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       raise (Error (
         fst ast_expr.expr_loc,
         env.env_scope_path,
-        Format.asprintf "argument to the unary `%s` operator has type %a instead of %a"
+        Format.asprintf "argument to the unary `%s` operator@ has type %a instead of %a"
           (
             match ast_un_op with
             | Ast.Un_op_pos -> "+"
@@ -286,7 +357,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       raise (Error (
         fst ast_expr.expr_loc,
         env.env_scope_path,
-        Format.asprintf "arguments to the `%s` operator has types %a and %a which are void or not compatible"
+        Format.asprintf "arguments to the `%s` operator@ has types %a and %a which are void or not compatible"
           (
             match ast_bin_op with
             | Ast.Bin_op_eq -> "=="
@@ -405,7 +476,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       raise (Error (
         fst ast_expr.expr_loc,
         env.env_scope_path,
-        Format.asprintf "arguments to the `%s` operator has types %a and %a which are not compatible"
+        Format.asprintf "arguments to the `%s` operator@ has types %a and %a which are not compatible"
           (
             match ast_bin_op with
             | Ast.Bin_op_add -> "+"
@@ -430,7 +501,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         raise (Error (
           fst ast_expr.expr_loc,
           env.env_scope_path,
-          Format.asprintf "arguments to the assignement operator has types %a and %a which are not compatible"
+          Format.asprintf "arguments to the assignement operator@ has types %a and %a which are not compatible"
             pp_typ expr_1.expr_typ
             pp_typ expr_2.expr_typ
         ));
@@ -509,7 +580,14 @@ let combine_cumulation (type a) (type b)
     cumulation_blocks = cumulation_1.cumulation_blocks @ cumulation_2.cumulation_blocks;
   }
 
-let rec typeck_ast_instr (env : env) (return_typ : typ) (next_block_path : path)
+type continuation = {
+  continuation_return_typ : typ;
+  continuation_fallthrough_block_path : path;
+  continuation_break_block_path : path option;
+  continuation_continue_block_path : path option;
+}
+
+let rec typeck_ast_instr (env : env) (continuation : continuation)
   (ast_instr : Ast.instr) : path cumulation =
   match ast_instr.instr_desc with
   | Ast.Instr_desc_expr ast_expr ->
@@ -518,14 +596,14 @@ let rec typeck_ast_instr (env : env) (return_typ : typ) (next_block_path : path)
       env_scope_path = env.env_scope_path |> path_append "instr_expr";
     } in
     let expr = ast_expr |> typeck_ast_expr renamed_env in
-    let expr_end_block_path = env.env_scope_path |> path_append "expr_end" in
-    let expr_end_block = {
+    let expr_block_path = renamed_env.env_scope_path |> path_append "expr" in
+    let expr_block = {
       block_exprs = [expr];
-      block_action = Action_goto next_block_path;
+      block_action = Action_goto continuation.continuation_fallthrough_block_path;
     } in
     {
-      (cumulation_of_data expr_end_block_path) with
-      cumulation_blocks = [(expr_end_block_path, expr_end_block)];
+      (cumulation_of_data expr_block_path) with
+      cumulation_blocks = [(expr_block_path, expr_block)];
     }
   | Instr_desc_block ast_instr_decls ->
     let renamed_env = {
@@ -536,12 +614,204 @@ let rec typeck_ast_instr (env : env) (return_typ : typ) (next_block_path : path)
       renamed_env with
       env_used_idents = []
     } in
-    ast_instr_decls |> typeck_ast_instr_decls new_env return_typ next_block_path |> map_cumulation fst
-  | _ -> assert false
+    ast_instr_decls
+      |> typeck_ast_instr_decls new_env continuation
+      |> map_cumulation fst
+  | Instr_desc_if (cond_ast_expr, then_ast_instr, else_ast_instr) ->
+    let renamed_env = {
+      env with
+      env_scope_path = env.env_scope_path |> path_append "instr_if";
+    } in
+    let cond_expr = cond_ast_expr |> typeck_ast_expr renamed_env in
+    if typ_equivalent Typ_void cond_expr.expr_typ then
+      raise (Error (fst ast_instr.instr_loc, renamed_env.env_scope_path, "the `if` condition has a void type"));
+    let then_cumulation = then_ast_instr |> typeck_ast_instr {
+      renamed_env with
+      env_scope_path = renamed_env.env_scope_path |> path_append "then";
+    } continuation in
+    let else_cumulation = else_ast_instr |> typeck_ast_instr {
+      renamed_env with
+      env_scope_path = renamed_env.env_scope_path |> path_append "else";
+    } continuation in
+    let combined_cumulation = combine_cumulation then_cumulation else_cumulation in
+    let (then_block_path, else_block_path) = combined_cumulation.cumulation_data in
+    let cond_block_path = renamed_env.env_scope_path |> path_append "cond" in
+    let cond_block = {
+      block_exprs = [];
+      block_action = Action_if (cond_expr, then_block_path, else_block_path);
+    } in
+    combine_cumulation
+      combined_cumulation
+      {
+        (cumulation_of_data cond_block_path) with
+        cumulation_blocks = [(cond_block_path, cond_block)];
+      }
+      |> map_cumulation snd
+  | Instr_desc_while (cond_ast_expr, body_ast_instr) ->
+    let renamed_env = {
+      env with
+      env_scope_path = env.env_scope_path |> path_append "instr_while";
+    } in
+    let cond_expr = cond_ast_expr |> typeck_ast_expr renamed_env in
+    if typ_equivalent Typ_void cond_expr.expr_typ then
+      raise (Error (fst ast_instr.instr_loc, renamed_env.env_scope_path, "the `while` condition has a void type"));
+    let cond_block_path = renamed_env.env_scope_path |> path_append "cond" in
+    let end_block_path = renamed_env.env_scope_path |> path_append "end" in
+    let end_block = {
+      block_exprs = [];
+      block_action = Action_goto (continuation.continuation_fallthrough_block_path);
+    } in
+    let body_cumulation = body_ast_instr |> typeck_ast_instr {
+      renamed_env with
+      env_scope_path = renamed_env.env_scope_path |> path_append "body";
+    } {
+      continuation with
+      continuation_fallthrough_block_path = cond_block_path;
+      continuation_break_block_path = Some end_block_path;
+      continuation_continue_block_path = Some cond_block_path;
+    } in
+    let body_block_path = body_cumulation.cumulation_data in
+    let cond_block = {
+      block_exprs = [];
+      block_action = Action_if (cond_expr, body_block_path, end_block_path);
+    } in
+    combine_cumulation
+      body_cumulation
+      {
+        (cumulation_of_data cond_block_path) with
+        cumulation_blocks = [(cond_block_path, cond_block); (end_block_path, end_block)];
+      }
+      |> map_cumulation snd
+  | Instr_desc_for (cond_ast_expr, step_ast_exprs, body_ast_instr) ->
+    let renamed_env = {
+      env with
+      env_scope_path = env.env_scope_path |> path_append "instr_for";
+    } in
+    let cond_expr = cond_ast_expr |> typeck_ast_expr renamed_env in
+    if typ_equivalent Typ_void cond_expr.expr_typ then
+      raise (Error (fst ast_instr.instr_loc, renamed_env.env_scope_path, "the `for` condition has a void type"));
+    let cond_block_path = renamed_env.env_scope_path |> path_append "cond" in
+    let step_exprs = step_ast_exprs |> List.map (typeck_ast_expr env) in
+    let steps_block_path = renamed_env.env_scope_path |> path_append "steps" in
+    let steps_block = {
+      block_exprs = step_exprs;
+      block_action = Action_goto cond_block_path;
+    } in
+    let end_block_path = renamed_env.env_scope_path |> path_append "end" in
+    let end_block = {
+      block_exprs = [];
+      block_action = Action_goto (continuation.continuation_fallthrough_block_path);
+    } in
+    let body_cumulation = body_ast_instr |> typeck_ast_instr {
+      renamed_env with
+      env_scope_path = renamed_env.env_scope_path |> path_append "body";
+    } {
+      continuation with
+      continuation_fallthrough_block_path = steps_block_path;
+      continuation_break_block_path = Some end_block_path;
+      continuation_continue_block_path = Some cond_block_path;
+    } in
+    let body_block_path = body_cumulation.cumulation_data in
+    let cond_block = {
+      block_exprs = [];
+      block_action = Action_if (cond_expr, body_block_path, end_block_path);
+    } in
+    combine_cumulation
+      body_cumulation
+      {
+        (cumulation_of_data cond_block_path) with
+        cumulation_blocks = [
+          (cond_block_path, cond_block);
+          (steps_block_path, steps_block);
+          (end_block_path, end_block);
+        ];
+      }
+      |> map_cumulation snd
+  | Instr_desc_return ast_expr -> (
+    let renamed_env = {
+      env with
+      env_scope_path = env.env_scope_path |> path_append "instr_return";
+    } in
+    match ast_expr with
+    | None ->
+      if continuation.continuation_return_typ <> Typ_void then
+        raise (Error (
+          fst ast_instr.instr_loc,
+          renamed_env.env_scope_path,
+          Format.asprintf "value required in `return` from a function of return type `%a`"
+            pp_typ continuation.continuation_return_typ
+        ));
+      let return_block_path = renamed_env.env_scope_path |> path_append "return" in
+      let return_block = {
+        block_exprs = [];
+        block_action = Action_return None;
+      } in
+      {
+        (cumulation_of_data return_block_path) with
+        cumulation_blocks = [(return_block_path, return_block)];
+      }
+    | Some ast_expr ->
+      let expr = ast_expr |> typeck_ast_expr renamed_env in
+      if not (typ_equivalent continuation.continuation_return_typ expr.expr_typ) then
+        raise (Error (
+          fst ast_instr.instr_loc,
+          renamed_env.env_scope_path,
+          Format.asprintf "value of type `%a` in `return` from a function of return type `%a`"
+            pp_typ expr.expr_typ
+            pp_typ continuation.continuation_return_typ
+        ));
+      let return_block_path = renamed_env.env_scope_path |> path_append "return" in
+      let return_block = {
+        block_exprs = [];
+        block_action = Action_return (Some expr);
+      } in
+      {
+        (cumulation_of_data return_block_path) with
+        cumulation_blocks = [(return_block_path, return_block)];
+      }
+  )
+  | Instr_desc_break -> (
+    let renamed_env = {
+      env with
+      env_scope_path = env.env_scope_path |> path_append "instr_break";
+    } in
+    match continuation.continuation_break_block_path with
+    | None ->
+      raise (Error (fst ast_instr.instr_loc, renamed_env.env_scope_path, "nothing to break"))
+    | Some break_block_path ->
+      let goto_block_path = renamed_env.env_scope_path |> path_append "goto" in
+      let goto_block = {
+        block_exprs = [];
+        block_action = Action_goto break_block_path;
+      } in
+      {
+        (cumulation_of_data goto_block_path) with
+        cumulation_blocks = [(goto_block_path, goto_block)];
+      }
+  )
+  | Instr_desc_continue -> (
+    let renamed_env = {
+      env with
+      env_scope_path = env.env_scope_path |> path_append "instr_continue";
+    } in
+    match continuation.continuation_continue_block_path with
+    | None ->
+      raise (Error (fst ast_instr.instr_loc, renamed_env.env_scope_path, "nothing to continue"))
+    | Some continue_block_path ->
+      let goto_block_path = renamed_env.env_scope_path |> path_append "goto" in
+      let goto_block = {
+        block_exprs = [];
+        block_action = Action_goto continue_block_path;
+      } in
+      {
+        (cumulation_of_data goto_block_path) with
+        cumulation_blocks = [(goto_block_path, goto_block)];
+      }
+  )
 
 and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumulation =
   match env.env_used_idents |> List.assoc_opt ast_func_decl.func_decl_name with
-  | None -> (
+  | None ->
     let return_typ = ast_func_decl.func_decl_return_typ |> typeck_ast_typ in
     let param_typs = ast_func_decl.func_decl_params |> List.map (fun (ast_param : Ast.param) ->
       ast_param.param_typ|> typeck_ast_typ
@@ -577,7 +847,12 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
       cumulation_vars = vars;
       cumulation_funcs = funcs;
       cumulation_blocks = blocks;
-    } = param_ast_instrs |> typeck_ast_instr_decls inner_env return_typ func_end_block_path in
+    } = param_ast_instrs |> typeck_ast_instr_decls inner_env {
+      continuation_return_typ = return_typ;
+      continuation_fallthrough_block_path = func_end_block_path;
+      continuation_break_block_path = None;
+      continuation_continue_block_path = None;
+    } in
     let param_paths = ast_func_decl.func_decl_params |> List.map (fun (ast_param : Ast.param) ->
       match end_env.env_bindings |> List.assoc ast_param.param_name with
       | Binding_var { path; _ } -> path
@@ -594,7 +869,6 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
       (cumulation_of_data extended_env) with
       cumulation_funcs = (path, func_decl) :: funcs;
     }
-  )
   | Some position ->
     raise (Error (
       fst ast_func_decl.func_decl_loc,
@@ -635,7 +909,7 @@ and typeck_ast_var_decl (env : env) (next_block_path : path)
         raise (Error (
           fst ast_var_decl.var_decl_loc,
           env.env_scope_path,
-          Format.asprintf "initializing expression of the variable `%s` has type %a instead of %a"
+          Format.asprintf "initializing expression of the variable `%s`@ has type %a instead of %a"
             ast_var_decl.var_decl_name
             pp_typ init_expr.expr_typ
             pp_typ typ
@@ -672,31 +946,31 @@ and typeck_ast_var_decl (env : env) (next_block_path : path)
     raise (Error (
       fst ast_var_decl.var_decl_loc,
       env.env_scope_path,
-      Format.asprintf "identifier `%s` is already used for `%a` defined at: %a"
+      Format.asprintf "identifier `%s`@ is already used for `%a` defined at: %a"
         ast_var_decl.var_decl_name
         pp_binding (env.env_bindings |> List.assoc ast_var_decl.var_decl_name)
         Utils.pp_position position
     ))
 
-and typeck_ast_instr_decl (env : env) (return_typ : typ) (next_block_path : path)
+and typeck_ast_instr_decl (env : env) (continuation : continuation)
   (ast_instr_decl : Ast.instr_decl) : (path * env) cumulation =
   match ast_instr_decl with
   | Ast.Instr_decl_func ast_func_decl ->
     ast_func_decl
      |> typeck_ast_func_decl env
-     |> map_cumulation (fun env -> (next_block_path, env))
+     |> map_cumulation (fun env -> (continuation.continuation_fallthrough_block_path, env))
   | Ast.Instr_decl_var ast_var_decl ->
     ast_var_decl
-      |> typeck_ast_var_decl env next_block_path
+      |> typeck_ast_var_decl env continuation.continuation_fallthrough_block_path
   | Ast.Instr_decl_instr ast_instr ->
     ast_instr
-      |> typeck_ast_instr env return_typ next_block_path
+      |> typeck_ast_instr env continuation
       |> map_cumulation (fun block_path -> (block_path, env))
 
-and typeck_ast_instr_decls (env : env) (return_typ : typ) (next_block_path : path)
+and typeck_ast_instr_decls (env : env) (continuation : continuation)
   (ast_instr_decls : Ast.instr_decl list) : (path * env) cumulation =
   if ast_instr_decls = []
-  then cumulation_of_data (next_block_path, env)
+  then cumulation_of_data (continuation.continuation_fallthrough_block_path, env)
   else
     let result_cumulation = ast_instr_decls
       |> List.mapi (fun i ast_instr_decl -> (i, ast_instr_decl))
@@ -716,8 +990,11 @@ and typeck_ast_instr_decls (env : env) (return_typ : typ) (next_block_path : pat
                 current_env with
                 env_scope_path = (scope_path_without_suffix |> path_append ("group_" ^ string_of_int i));
               }
-              return_typ
-              (env.env_scope_path |> path_append ("group_end_" ^ string_of_int i))
+              {
+                continuation with
+                continuation_fallthrough_block_path =
+                  env.env_scope_path |> path_append ("group_end_" ^ string_of_int i);
+              }
           )
           |> map_cumulation (fun (rest, (block_path, env)) -> rest @ [(block_path, env)])
       ) (cumulation_of_data []) in
@@ -731,7 +1008,7 @@ and typeck_ast_instr_decls (env : env) (return_typ : typ) (next_block_path : pat
               block_exprs = [];
               block_action = Action_goto (
                 if i = List.length ast_instr_decls - 1
-                then next_block_path
+                then continuation.continuation_fallthrough_block_path
                 else List.nth result_cumulation.cumulation_data (i + 1) |> fst
               );
             }
@@ -771,7 +1048,91 @@ let typeck_ast_file (ast_file : Ast.file) : program =
   } in
   let result_cumulation = ast_file.file_func_decls
     |> List.map (fun func_decl -> Ast.Instr_decl_func func_decl)
-    |> typeck_ast_instr_decls global_env Typ_void (global_env.env_scope_path |> path_append "file_end") in
+    |> typeck_ast_instr_decls global_env {
+      continuation_return_typ = Typ_void;
+      continuation_fallthrough_block_path = (global_env.env_scope_path |> path_append "file_end");
+      continuation_break_block_path = None;
+      continuation_continue_block_path = None;
+     } in
   {
     program_funcs = result_cumulation.cumulation_funcs;
   }
+
+let pp_program_graph (formatter : Format.formatter) (program : program) : unit =
+  simplified_pp_path := true;
+  Format.fprintf formatter "digraph {@.";
+  program.program_funcs |> List.iteri (fun i (path, func_decl) ->
+    Format.fprintf formatter "    subgraph \"cluster_%d\" {@." i;
+    let pp_path_var_decl =
+      Format.pp_print_list
+        ~pp_sep:(fun formatter () -> Format.fprintf formatter ",@ ")
+        (fun formatter (path, var_decl) ->
+          Format.fprintf formatter "%a %a" pp_typ var_decl.var_decl_typ pp_path path
+        ) in
+    let label =
+      Format.asprintf "%a %a(%a) [%a]"
+        pp_typ func_decl.func_decl_return_typ
+        pp_path path
+        pp_path_var_decl func_decl.func_decl_params
+        pp_path_var_decl func_decl.func_decl_vars in
+    Format.fprintf formatter "        label = \"%s\";@." label;
+    let source_path = path |> path_append "source" in
+    Format.fprintf formatter "        \"%a\"[style = invisible];@." pp_path_strict source_path;
+    Format.fprintf formatter "        \"%a\" -> \"%a\"@."
+      pp_path_strict source_path
+      pp_path_strict func_decl.func_decl_entry_block_path;
+    func_decl.func_decl_blocks |> List.iter (fun (block_path, block) ->
+      let replace_breaks str = str |> Str.global_replace (Str.regexp "\n") "<br/>\n" in
+      let label =
+        Format.asprintf "<table border=\"0\" cellborder=\"1\" cellspacing=\"0\"><tr><td>%s</td></tr>
+        <tr><td></td></tr>%a</table>"
+          (Format.asprintf "%a" pp_path block_path |> replace_breaks)
+          (
+            Format.pp_print_list
+            (fun formatter expr ->
+              Format.fprintf formatter "<tr><td>%s</td></tr>" (Format.asprintf "%a" pp_expr expr |> replace_breaks)
+            )
+          ) block.block_exprs in
+      Format.fprintf formatter "        \"%a\"[shape=plaintext; label = <%s>];@." pp_path_strict block_path label;
+      match block.block_action with
+      | Action_goto target_block_path ->
+        Format.fprintf formatter "        \"%a\" -> \"%a\";@."
+          pp_path_strict block_path
+          pp_path_strict target_block_path;
+      | Action_if (cond_expr, then_block_path, else_block_path) ->
+        Format.fprintf formatter "        \"%a\" -> \"%a\" [label=\"%s ?= true\"];@."
+          pp_path_strict block_path
+          pp_path_strict then_block_path
+          (Format.asprintf "%a" pp_expr cond_expr);
+        Format.fprintf formatter "        \"%a\" -> \"%a\" [label=\"%s ?= false\"];@."
+          pp_path_strict block_path
+          pp_path_strict else_block_path
+          (Format.asprintf "%a" pp_expr cond_expr);
+      | Action_return return_expr -> (
+        let sink_path = block_path |> path_append "sink" in
+        Format.fprintf formatter "        \"%a\"[style = invisible];@." pp_path_strict sink_path;
+        match return_expr with
+        | None ->
+          Format.fprintf formatter "        \"%a\" -> \"%a\" [label=\"return\"];@."
+            pp_path_strict block_path
+            pp_path_strict sink_path
+        | Some return_expr ->
+          Format.fprintf formatter "        \"%a\" -> \"%a\" [label=\"return %s\"];@."
+            pp_path_strict block_path
+            pp_path_strict sink_path
+            (Format.asprintf "%a" pp_expr return_expr)
+      )
+      | Action_unreachable ->
+        let sink_path = block_path |> path_append "sink" in
+        Format.fprintf formatter "        \"%a\"[style = invisible];@." pp_path_strict sink_path;
+        Format.fprintf formatter "        \"%a\" -> \"%a\" [label=\"unreachable\"];@."
+          pp_path_strict block_path
+          pp_path_strict sink_path
+    );
+    Format.fprintf formatter "    }@.";
+  );
+  Format.fprintf formatter "}@.";
+  simplified_pp_path := false
+
+let show_program_graph (program : program) : string =
+  Format.asprintf "%a" pp_program_graph program

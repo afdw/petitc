@@ -4,6 +4,7 @@ type stop_after =
   | Stop_after_lex
   | Stop_after_parse
   | Stop_after_type
+  | Stop_after_type_graph
   | Stop_after_codegen
 
 let generate_output_filename (stop_after : stop_after) (input_filename : string) : string =
@@ -16,6 +17,7 @@ let generate_output_filename (stop_after : stop_after) (input_filename : string)
   | Stop_after_lex -> input_filename_without_suffix ^ ".lex.txt"
   | Stop_after_parse -> input_filename_without_suffix ^ ".parse.txt"
   | Stop_after_type -> input_filename_without_suffix ^ ".type.txt"
+  | Stop_after_type_graph -> input_filename_without_suffix ^ ".type.dot"
   | Stop_after_codegen -> input_filename_without_suffix ^ ".s"
 
 let wrap_lexbuf_errors (type a) (lexbuf : Lexing.lexbuf) (f : unit -> a) : a =
@@ -50,9 +52,11 @@ let main ~(stop_after : stop_after) ~(input_filename : string) ~(output_filename
         | Typed.Error (position, path, error_text) ->
           raise (Compilation_error (
             position,
-            Format.asprintf "typeing error for `%a`: %s" Typed.pp_path path error_text
+            Format.asprintf "typeing error for `%a`:@ %s" Typed.pp_path path error_text
           )) in
       if stop_after = Stop_after_type then
         Format.fprintf output_formatter "%a@." Typed.pp_program program
+      else if stop_after = Stop_after_type_graph then
+        Typed.pp_program_graph output_formatter program
   );
   close_out output_channel

@@ -1,0 +1,187 @@
+digraph {
+    subgraph "cluster_0" {
+        label = "void func_test_1() [int var_a,
+int var_b]";
+        "group_0::func_test_1::source"[style = invisible];
+        "group_0::func_test_1::source" -> "group_0::decl_test_1::group_0::block_expr::group_0::init_a"
+        "group_0::func_test_1::func_end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>func_end</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::func_test_1::func_end::sink"[style = invisible];
+        "group_0::func_test_1::func_end" -> "group_0::func_test_1::func_end::sink" [label="return"];
+        "group_0::decl_test_1::group_0::block_expr::group_0::init_a"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>init_a</td></tr>
+        <tr><td></td></tr><tr><td>((var_a : int*) = (4 : int)<br/>
+: int)</td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_0::init_a" -> "group_0::decl_test_1::group_0::block_expr::group_end_0";
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::group_0::instr_expr::expr"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>expr</td></tr>
+        <tr><td></td></tr><tr><td>((var_b : int*) = (6 : int)<br/>
+: int)</td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::group_0::instr_expr::expr" -> "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::group_end_0";
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::group_end_0" -> "group_0::decl_test_1::group_0::block_expr::group_end_2";
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::block_expr::group_0::instr_expr::expr"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>expr</td></tr>
+        <tr><td></td></tr><tr><td>((var_b : int*) = (8 : int)<br/>
+: int)</td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::block_expr::group_0::instr_expr::expr" -> "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::block_expr::group_end_0";
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::block_expr::group_end_0" -> "group_0::decl_test_1::group_0::block_expr::group_end_2";
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::cond"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>cond</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::cond" -> "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::group_0::instr_expr::expr" [label="(*(var_a : int*)
+: int) ?= true"];
+        "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::cond" -> "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::block_expr::group_0::instr_expr::expr" [label="(*(var_a : int*)
+: int) ?= false"];
+        "group_0::decl_test_1::group_0::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_end_0" -> "group_0::decl_test_1::group_0::block_expr::group_end_1";
+        "group_0::decl_test_1::group_0::block_expr::group_end_1"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_1</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_end_1" -> "group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::cond";
+        "group_0::decl_test_1::group_0::block_expr::group_end_2"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_2</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_0::block_expr::group_end_2" -> "group_0::decl_test_1::group_end_0";
+        "group_0::decl_test_1::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_0::decl_test_1::group_end_0" -> "group_0::func_test_1::func_end";
+    }
+    subgraph "cluster_1" {
+        label = "void func_test_2() [int var_a]";
+        "group_1::func_test_2::source"[style = invisible];
+        "group_1::func_test_2::source" -> "group_1::decl_test_2::group_0::block_expr::group_0::init_a"
+        "group_1::func_test_2::func_end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>func_end</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::func_test_2::func_end::sink"[style = invisible];
+        "group_1::func_test_2::func_end" -> "group_1::func_test_2::func_end::sink" [label="return"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::init_a"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>init_a</td></tr>
+        <tr><td></td></tr><tr><td>((var_a : int*) = (3 : int)<br/>
+: int)</td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::init_a" -> "group_1::decl_test_2::group_0::block_expr::group_end_0";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_0::instr_expr::expr"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>expr</td></tr>
+        <tr><td></td></tr><tr><td>((var_a : int*) = ((*(var_a : int*) : int) * (2 : int) : int)<br/>
+: int)</td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_0::instr_expr::expr" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_0";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::then::block_expr::group_0::instr_break::goto"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>goto</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::then::block_expr::group_0::instr_break::goto" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::end";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::then::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::then::block_expr::group_end_0" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_1";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::cond"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>cond</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::cond" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::then::block_expr::group_0::instr_break::goto" [label="((*(var_a : int*) : int) == (1 : int)
+: int) ?= true"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::cond" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_1" [label="((*(var_a : int*) : int) == (1 : int)
+: int) ?= false"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::then::block_expr::group_0::instr_continue::goto"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>goto</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::then::block_expr::group_0::instr_continue::goto" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::then::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::then::block_expr::group_end_0" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_2";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::cond"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>cond</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::cond" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::then::block_expr::group_0::instr_continue::goto" [label="((*(var_a : int*) : int) == (7 : int)
+: int) ?= true"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::cond" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_2" [label="((*(var_a : int*) : int) == (7 : int)
+: int) ?= false"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_3::instr_expr::expr"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>expr</td></tr>
+        <tr><td></td></tr><tr><td>((var_a : int*) = ((*(var_a : int*) : int) * (4 : int) : int)<br/>
+: int)</td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_3::instr_expr::expr" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_3";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_0" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_1::instr_if::cond";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_1"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_1</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_1" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::instr_if::cond";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_2"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_2</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_2" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_3::instr_expr::expr";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_3"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_3</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_3" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond";
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>cond</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_0::instr_expr::expr" [label="((*(var_a : int*) : int) < (5 : int)
+: int) ?= true"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::end" [label="((*(var_a : int*) : int) < (5 : int)
+: int) ?= false"];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>end</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::end" -> "group_1::decl_test_2::group_0::block_expr::group_end_1";
+        "group_1::decl_test_2::group_0::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_end_0" -> "group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond";
+        "group_1::decl_test_2::group_0::block_expr::group_end_1"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_1</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_0::block_expr::group_end_1" -> "group_1::decl_test_2::group_end_0";
+        "group_1::decl_test_2::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_1::decl_test_2::group_end_0" -> "group_1::func_test_2::func_end";
+    }
+    subgraph "cluster_2" {
+        label = "int func_test_3() [int var_res,
+int var_i]";
+        "group_2::func_test_3::source"[style = invisible];
+        "group_2::func_test_3::source" -> "group_2::decl_test_3::group_0::block_expr::group_0::init_res"
+        "group_2::func_test_3::func_end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>func_end</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::func_test_3::func_end::sink"[style = invisible];
+        "group_2::func_test_3::func_end" -> "group_2::func_test_3::func_end::sink" [label="unreachable"];
+        "group_2::decl_test_3::group_0::block_expr::group_0::init_res"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>init_res</td></tr>
+        <tr><td></td></tr><tr><td>((var_res : int*) = (0 : int)<br/>
+: int)</td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::init_res" -> "group_2::decl_test_3::group_0::block_expr::group_end_0";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::init_i"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>init_i</td></tr>
+        <tr><td></td></tr><tr><td>((var_i : int*) = (0 : int)<br/>
+: int)</td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::init_i" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_end_0";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::body::block_expr::group_0::instr_expr::expr"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>expr</td></tr>
+        <tr><td></td></tr><tr><td>((var_res<br/>
+ : int*) = ((*(var_res : int*)<br/>
+            : int) + (func_putchar((*(var_i : int*) : int)) : int)<br/>
+ : int)<br/>
+: int)</td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::body::block_expr::group_0::instr_expr::expr" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::body::block_expr::group_end_0";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::body::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::body::block_expr::group_end_0" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::steps";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>cond</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::body::block_expr::group_0::instr_expr::expr" [label="((*(var_i : int*) : int) < (10 : int)
+: int) ?= true"];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::end" [label="((*(var_i : int*) : int) < (10 : int)
+: int) ?= false"];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::steps"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>steps</td></tr>
+        <tr><td></td></tr><tr><td>((var_i : int*)++<br/>
+: int)</td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::steps" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>end</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::end" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_end_1";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_end_0" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_end_1"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_1</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_end_1" -> "group_2::decl_test_3::group_0::block_expr::group_end_1";
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_2::instr_return::return"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>return</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_2::instr_return::return::sink"[style = invisible];
+        "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_2::instr_return::return" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_2::instr_return::return::sink" [label="return (*(var_res : int*)
+: int)"];
+        "group_2::decl_test_3::group_0::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_end_0" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::init_i";
+        "group_2::decl_test_3::group_0::block_expr::group_end_1"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_1</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_end_1" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_2::instr_return::return";
+        "group_2::decl_test_3::group_0::block_expr::group_end_2"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_2</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_0::block_expr::group_end_2" -> "group_2::decl_test_3::group_end_0";
+        "group_2::decl_test_3::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_2::decl_test_3::group_end_0" -> "group_2::func_test_3::func_end";
+    }
+}

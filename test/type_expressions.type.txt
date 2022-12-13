@@ -8,33 +8,12 @@
       [(group_0::func_test_1::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
         (group_0::decl_test_1::group_0::block_expr::group_0::init_var,
          { Typed.block_exprs =
-           [{ Typed.expr_typ = int;
-              expr_desc =
-              (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                 { Typed.expr_typ = int*;
-                   expr_desc = (Typed.Expr_desc_var group_0::decl_test_1::group_0::block_expr::group_0::var_var) },
-                 { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 5L)) }))
-              }
-             ];
+           [((group_0::decl_test_1::group_0::block_expr::group_0::var_var : int*) = (5 : int) : int)];
            block_action = (Typed.Action_goto group_0::decl_test_1::group_0::block_expr::group_end_0) });
         (group_0::decl_test_1::group_0::block_expr::group_0::with_var::group_1::init_x,
          { Typed.block_exprs =
-           [{ Typed.expr_typ = int;
-              expr_desc =
-              (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                 { Typed.expr_typ = int*;
-                   expr_desc =
-                   (Typed.Expr_desc_var group_0::decl_test_1::group_0::block_expr::group_0::with_var::group_1::var_x) },
-                 { Typed.expr_typ = int;
-                   expr_desc =
-                   (Typed.Expr_desc_un_op (Typed.Un_op_deref,
-                      { Typed.expr_typ = int*;
-                        expr_desc = (Typed.Expr_desc_var group_0::decl_test_1::group_0::block_expr::group_0::var_var) }
-                      ))
-                   }
-                 ))
-              }
-             ];
+           [((group_0::decl_test_1::group_0::block_expr::group_0::with_var::group_1::var_x
+             : int*) = (*(group_0::decl_test_1::group_0::block_expr::group_0::var_var : int*) : int) : int)];
            block_action = (Typed.Action_goto group_0::decl_test_1::group_0::block_expr::group_end_1) });
         (group_0::decl_test_1::group_0::block_expr::group_end_0,
          { Typed.block_exprs = [];
@@ -50,20 +29,13 @@
      { Typed.func_decl_return_typ = void; func_decl_params = []; func_decl_vars = [];
        func_decl_blocks =
        [(group_1::func_test_2::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
-         (group_1::decl_test_2::group_0::block_expr::group_1::expr_end,
+         (group_1::decl_test_2::group_0::block_expr::group_1::instr_expr::expr,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void;
-               expr_desc =
-               (Typed.Expr_desc_call (group_1::decl_test_2::group_0::block_expr::group_0::func_f,
-                  [{ Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 3L)) };
-                    { Typed.expr_typ = void*; expr_desc = (Typed.Expr_desc_const Typed.Const_null) }]
-                  ))
-               }
-              ];
+            [(group_1::decl_test_2::group_0::block_expr::group_0::func_f((3 : int), (NULL : void*)) : void)];
             block_action = (Typed.Action_goto group_1::decl_test_2::group_0::block_expr::group_end_1) });
          (group_1::decl_test_2::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
-            block_action = (Typed.Action_goto group_1::decl_test_2::group_0::block_expr::group_1::expr_end) });
+            block_action = (Typed.Action_goto group_1::decl_test_2::group_0::block_expr::group_1::instr_expr::expr) });
          (group_1::decl_test_2::group_0::block_expr::group_end_1,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_1::decl_test_2::group_end_0) });
          (group_1::decl_test_2::group_end_0,
@@ -103,75 +75,38 @@
           { Typed.var_decl_typ = int***** });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::var_a,
           { Typed.var_decl_typ = int });
-         (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::with_a::group_4::var_b,
-          { Typed.var_decl_typ = int })
+         (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::
+          with_a::group_4::var_b, { Typed.var_decl_typ = int })
          ];
        func_decl_blocks =
        [(group_2::func_test_3::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_2::decl_test_3::group_0::block_expr::group_0::init_x,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = bool;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = bool*;
-                    expr_desc = (Typed.Expr_desc_var group_2::decl_test_3::group_0::block_expr::group_0::var_x) },
-                  { Typed.expr_typ = bool; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 0L)) }))
-               }
-              ];
+            [((group_2::decl_test_3::group_0::block_expr::group_0::var_x : bool*) = (0 : bool) : bool)];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_0) });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::init_y,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = bool;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = bool*;
-                    expr_desc =
-                    (Typed.Expr_desc_var group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::var_y) },
-                  { Typed.expr_typ = bool; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) }))
-               }
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::var_y : bool*) = (1 : bool) : bool)
               ];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_1) });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::init_z,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void*;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int******;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::var_z)
-                    },
-                  { Typed.expr_typ = void*; expr_desc = (Typed.Expr_desc_const Typed.Const_null) }))
-               }
-              ];
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::var_z
+              : int******) = (NULL : void*) : void*)];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_2) });
-         (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::init_a,
+         (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::
+          init_a,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::var_a)
-                    },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 7L)) }))
-               }
-              ];
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::
+               var_a
+              : int*) = (7 : int) : int)];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_3) });
-         (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::with_a::group_4::init_b,
+         (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::
+          with_a::group_4::init_b,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::with_a::group_4::var_b)
-                    },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 8L)) }))
-               }
-              ];
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::
+               with_a::group_4::var_b
+              : int*) = (8 : int) : int)];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_4) });
          (group_2::decl_test_3::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -180,20 +115,20 @@
          (group_2::decl_test_3::group_0::block_expr::group_end_1,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::init_z)
+            (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::
+               init_z)
             });
          (group_2::decl_test_3::group_0::block_expr::group_end_2,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::init_a)
+            (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::
+               with_z::group_3::init_a)
             });
          (group_2::decl_test_3::group_0::block_expr::group_end_3,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::with_z::group_3::with_a::group_4::init_b)
+            (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::
+               with_z::group_3::with_a::group_4::init_b)
             });
          (group_2::decl_test_3::group_0::block_expr::group_end_4,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_2::decl_test_3::group_end_0) });
@@ -210,174 +145,78 @@
           { Typed.var_decl_typ = int });
          (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_x,
           { Typed.var_decl_typ = void*** });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::var_e,
-          { Typed.var_decl_typ = void*** });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::var_f,
-          { Typed.var_decl_typ = void*** });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::var_g,
-          { Typed.var_decl_typ = void*** });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::var_h,
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::var_e, { Typed.var_decl_typ = void*** });
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::with_e::group_5::var_f, { Typed.var_decl_typ = void*** });
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::with_e::group_5::with_f::group_6::var_g, { Typed.var_decl_typ = void*** });
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::var_h, 
           { Typed.var_decl_typ = void*** })
          ];
        func_decl_blocks =
        [(group_3::func_test_4::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_3::decl_test_4::group_0::block_expr::group_0::init_a,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc = (Typed.Expr_desc_var group_3::decl_test_4::group_0::block_expr::group_0::var_a) },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) }))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::var_a : int*) = (1 : int) : int)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_0) });
          (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::init_b,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::var_b) },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_sub,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 0L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::var_b
+              : int*) = ((0 : int) - (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_1) });
          (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_un_op (Typed.Un_op_not,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 3L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c
+              : int*) = (!(3 : int) : int) : int)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_2) });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::init_x,
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          init_x,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void*;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = void****;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_x)
-                    },
-                  { Typed.expr_typ = void*; expr_desc = (Typed.Expr_desc_const Typed.Const_null) }))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               var_x
+              : void****) = (NULL : void*) : void*)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_3) });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::init_e,
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::init_e,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void***;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = void****;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::var_e)
-                    },
-                  { Typed.expr_typ = void***;
-                    expr_desc =
-                    (Typed.Expr_desc_un_op (Typed.Un_op_pre_incr,
-                       { Typed.expr_typ = void****;
-                         expr_desc =
-                         (Typed.Expr_desc_var
-                            group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_x)
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_x::group_4::var_e
+              : void****) = (--(group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+                                with_c::group_3::var_x
+                             : void****)
+              : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_4) });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::init_f,
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::with_e::group_5::init_f,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void***;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = void****;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::var_f)
-                    },
-                  { Typed.expr_typ = void***;
-                    expr_desc =
-                    (Typed.Expr_desc_un_op (Typed.Un_op_pre_decr,
-                       { Typed.expr_typ = void****;
-                         expr_desc =
-                         (Typed.Expr_desc_var
-                            group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_x)
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_x::group_4::with_e::group_5::var_f
+              : void****) = (--(group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+                                with_c::group_3::var_x
+                             : void****)
+              : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_5) });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::init_g,
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::with_e::group_5::with_f::group_6::init_g,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void***;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = void****;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::var_g)
-                    },
-                  { Typed.expr_typ = void***;
-                    expr_desc =
-                    (Typed.Expr_desc_un_op (Typed.Un_op_post_incr,
-                       { Typed.expr_typ = void****;
-                         expr_desc =
-                         (Typed.Expr_desc_var
-                            group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_x)
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_x::group_4::with_e::group_5::with_f::group_6::var_g
+              : void****) = ((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+                              with_c::group_3::var_x
+                             : void****)++
+              : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_6) });
-         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::init_h,
+         (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::init_h,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = void***;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = void****;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::var_h)
-                    },
-                  { Typed.expr_typ = void***;
-                    expr_desc =
-                    (Typed.Expr_desc_un_op (Typed.Un_op_post_decr,
-                       { Typed.expr_typ = void****;
-                         expr_desc =
-                         (Typed.Expr_desc_var
-                            group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_x)
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::var_h
+              : void****) = ((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+                              with_c::group_3::var_x
+                             : void****)++
+              : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_7) });
          (group_3::decl_test_4::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -386,38 +225,38 @@
          (group_3::decl_test_4::group_0::block_expr::group_end_1,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c)
+            (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               init_c)
             });
          (group_3::decl_test_4::group_0::block_expr::group_end_2,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::init_x)
+            (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::init_x)
             });
          (group_3::decl_test_4::group_0::block_expr::group_end_3,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::init_e)
+            (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_x::group_4::init_e)
             });
          (group_3::decl_test_4::group_0::block_expr::group_end_4,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::init_f)
+            (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_x::group_4::with_e::group_5::init_f)
             });
          (group_3::decl_test_4::group_0::block_expr::group_end_5,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::init_g)
+            (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::init_g)
             });
          (group_3::decl_test_4::group_0::block_expr::group_end_6,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::init_h)
+            (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::init_h)
             });
          (group_3::decl_test_4::group_0::block_expr::group_end_7,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_3::decl_test_4::group_end_0) });
@@ -437,57 +276,19 @@
        [(group_4::func_test_5::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_4::decl_test_5::group_0::block_expr::group_0::init_a,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc = (Typed.Expr_desc_var group_4::decl_test_5::group_0::block_expr::group_0::var_a) },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) }))
-               }
-              ];
+            [((group_4::decl_test_5::group_0::block_expr::group_0::var_a : int*) = (1 : int) : int)];
             block_action = (Typed.Action_goto group_4::decl_test_5::group_0::block_expr::group_end_0) });
          (group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::init_b,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int*;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int**;
-                    expr_desc =
-                    (Typed.Expr_desc_var group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::var_b) },
-                  { Typed.expr_typ = int*;
-                    expr_desc = (Typed.Expr_desc_var group_4::decl_test_5::group_0::block_expr::group_0::var_a) }
-                  ))
-               }
-              ];
+            [((group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::var_b
+              : int**) = (group_4::decl_test_5::group_0::block_expr::group_0::var_a : int*) : int*)];
             block_action = (Typed.Action_goto group_4::decl_test_5::group_0::block_expr::group_end_1) });
          (group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_un_op (Typed.Un_op_deref,
-                       { Typed.expr_typ = int*;
-                         expr_desc =
-                         (Typed.Expr_desc_un_op (Typed.Un_op_deref,
-                            { Typed.expr_typ = int**;
-                              expr_desc =
-                              (Typed.Expr_desc_var
-                                 group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::var_b)
-                              }
-                            ))
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c
+              : int*) = (*(*(group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::var_b : int**)
+                         : int*)
+              : int) : int)];
             block_action = (Typed.Action_goto group_4::decl_test_5::group_0::block_expr::group_end_2) });
          (group_4::decl_test_5::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -496,8 +297,8 @@
          (group_4::decl_test_5::group_0::block_expr::group_end_1,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c)
+            (Typed.Action_goto group_4::decl_test_5::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               init_c)
             });
          (group_4::decl_test_5::group_0::block_expr::group_end_2,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_4::decl_test_5::group_end_0) });
@@ -514,149 +315,57 @@
           { Typed.var_decl_typ = int });
          (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_d,
           { Typed.var_decl_typ = int });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::var_e,
-          { Typed.var_decl_typ = int });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::var_f,
-          { Typed.var_decl_typ = int });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::with_f::group_6::var_g,
-          { Typed.var_decl_typ = int })
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_d::group_4::var_e, { Typed.var_decl_typ = int });
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_d::group_4::with_e::group_5::var_f, { Typed.var_decl_typ = int });
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_d::group_4::with_e::group_5::with_f::group_6::var_g, { Typed.var_decl_typ = int })
          ];
        func_decl_blocks =
        [(group_5::func_test_6::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_5::decl_test_6::group_0::block_expr::group_0::init_a,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc = (Typed.Expr_desc_var group_5::decl_test_6::group_0::block_expr::group_0::var_a) },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_add,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
+            [((group_5::decl_test_6::group_0::block_expr::group_0::var_a : int*) = ((1 : int) + (2 : int) : int) : int)
               ];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_0) });
          (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::init_b,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::var_b) },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_sub,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::var_b
+              : int*) = ((1 : int) - (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_1) });
          (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_mul,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c
+              : int*) = ((1 : int) * (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_2) });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::init_d,
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          init_d,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::var_d)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_div,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               var_d
+              : int*) = ((1 : int) / (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_3) });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::init_e,
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_d::group_4::init_e,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::var_e)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_mod,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_d::group_4::var_e
+              : int*) = ((1 : int) % (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_4) });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::init_f,
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_d::group_4::with_e::group_5::init_f,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::var_f)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_and,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_d::group_4::with_e::group_5::var_f
+              : int*) = ((1 : int) && (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_5) });
-         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::with_f::group_6::init_g,
+         (group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+          with_d::group_4::with_e::group_5::with_f::group_6::init_g,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::with_f::group_6::var_g)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_or,
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
+               with_d::group_4::with_e::group_5::with_f::group_6::var_g
+              : int*) = ((1 : int) || (2 : int) : int) : int)];
             block_action = (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_end_6) });
          (group_5::decl_test_6::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -665,32 +374,32 @@
          (group_5::decl_test_6::group_0::block_expr::group_end_1,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c)
+            (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               init_c)
             });
          (group_5::decl_test_6::group_0::block_expr::group_end_2,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::init_d)
+            (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::init_d)
             });
          (group_5::decl_test_6::group_0::block_expr::group_end_3,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::init_e)
+            (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_d::group_4::init_e)
             });
          (group_5::decl_test_6::group_0::block_expr::group_end_4,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::init_f)
+            (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_d::group_4::with_e::group_5::init_f)
             });
          (group_5::decl_test_6::group_0::block_expr::group_end_5,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::with_d::group_4::with_e::group_5::with_f::group_6::init_g)
+            (Typed.Action_goto group_5::decl_test_6::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               with_c::group_3::with_d::group_4::with_e::group_5::with_f::group_6::init_g)
             });
          (group_5::decl_test_6::group_0::block_expr::group_end_6,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_5::decl_test_6::group_end_0) });
@@ -710,66 +419,21 @@
        [(group_6::func_test_7::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_6::decl_test_7::group_0::block_expr::group_0::init_a,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc = (Typed.Expr_desc_var group_6::decl_test_7::group_0::block_expr::group_0::var_a) },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) }))
-               }
-              ];
+            [((group_6::decl_test_7::group_0::block_expr::group_0::var_a : int*) = (1 : int) : int)];
             block_action = (Typed.Action_goto group_6::decl_test_7::group_0::block_expr::group_end_0) });
          (group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::init_b,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int*;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int**;
-                    expr_desc =
-                    (Typed.Expr_desc_var group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::var_b) },
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_add,
-                       { Typed.expr_typ = int*;
-                         expr_desc = (Typed.Expr_desc_var group_6::decl_test_7::group_0::block_expr::group_0::var_a) },
-                       { Typed.expr_typ = int;
-                         expr_desc =
-                         (Typed.Expr_desc_bin_op (Typed.Bin_op_mul,
-                            { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) },
-                            { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 8L)) }))
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::var_b
+              : int**) = ((group_6::decl_test_7::group_0::block_expr::group_0::var_a : int*) + (
+                          (2 : int) * (8 : int) : int)
+              : int*) : int*)];
             block_action = (Typed.Action_goto group_6::decl_test_7::group_0::block_expr::group_end_1) });
          (group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int*;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int**;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c)
-                    },
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_sub,
-                       { Typed.expr_typ = int*;
-                         expr_desc = (Typed.Expr_desc_var group_6::decl_test_7::group_0::block_expr::group_0::var_a) },
-                       { Typed.expr_typ = int;
-                         expr_desc =
-                         (Typed.Expr_desc_bin_op (Typed.Bin_op_mul,
-                            { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) },
-                            { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 8L)) }))
-                         }
-                       ))
-                    }
-                  ))
-               }
-              ];
+            [((group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c
+              : int**) = ((group_6::decl_test_7::group_0::block_expr::group_0::var_a : int*) - (
+                          (2 : int) * (8 : int) : int)
+              : int*) : int*)];
             block_action = (Typed.Action_goto group_6::decl_test_7::group_0::block_expr::group_end_2) });
          (group_6::decl_test_7::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -778,8 +442,8 @@
          (group_6::decl_test_7::group_0::block_expr::group_end_1,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c)
+            (Typed.Action_goto group_6::decl_test_7::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               init_c)
             });
          (group_6::decl_test_7::group_0::block_expr::group_end_2,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_6::decl_test_7::group_end_0) });
@@ -799,58 +463,19 @@
        [(group_7::func_test_8::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_7::decl_test_8::group_0::block_expr::group_0::init_a,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc = (Typed.Expr_desc_var group_7::decl_test_8::group_0::block_expr::group_0::var_a) },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 1L)) }))
-               }
-              ];
+            [((group_7::decl_test_8::group_0::block_expr::group_0::var_a : int*) = (1 : int) : int)];
             block_action = (Typed.Action_goto group_7::decl_test_8::group_0::block_expr::group_end_0) });
          (group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::init_b,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::var_b) },
-                  { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 2L)) }))
-               }
-              ];
+            [((group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::var_b : int*) = (2 : int) : int)];
             block_action = (Typed.Action_goto group_7::decl_test_8::group_0::block_expr::group_end_1) });
          (group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c,
           { Typed.block_exprs =
-            [{ Typed.expr_typ = int;
-               expr_desc =
-               (Typed.Expr_desc_bin_op (Typed.Bin_op_assign,
-                  { Typed.expr_typ = int*;
-                    expr_desc =
-                    (Typed.Expr_desc_var
-                       group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c)
-                    },
-                  { Typed.expr_typ = int;
-                    expr_desc =
-                    (Typed.Expr_desc_bin_op (Typed.Bin_op_div,
-                       { Typed.expr_typ = int;
-                         expr_desc =
-                         (Typed.Expr_desc_bin_op (Typed.Bin_op_sub,
-                            { Typed.expr_typ = int*;
-                              expr_desc =
-                              (Typed.Expr_desc_var group_7::decl_test_8::group_0::block_expr::group_0::var_a) },
-                            { Typed.expr_typ = int*;
-                              expr_desc =
-                              (Typed.Expr_desc_var
-                                 group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::var_b)
-                              }
-                            ))
-                         },
-                       { Typed.expr_typ = int; expr_desc = (Typed.Expr_desc_const (Typed.Const_int 8L)) }))
-                    }
-                  ))
-               }
-              ];
+            [((group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::var_c
+              : int*) = (((group_7::decl_test_8::group_0::block_expr::group_0::var_a
+                          : int*) - (group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::var_b : int*)
+                         : int) / (8 : int)
+              : int) : int)];
             block_action = (Typed.Action_goto group_7::decl_test_8::group_0::block_expr::group_end_2) });
          (group_7::decl_test_8::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -859,8 +484,8 @@
          (group_7::decl_test_8::group_0::block_expr::group_end_1,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_goto
-               group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::init_c)
+            (Typed.Action_goto group_7::decl_test_8::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+               init_c)
             });
          (group_7::decl_test_8::group_0::block_expr::group_end_2,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_7::decl_test_8::group_end_0) });

@@ -3,9 +3,26 @@ open Main
 let () =
   let stop_after = ref Stop_after_codegen in
   let speclist = [
-    ("--lex-only", Arg.Unit (fun () -> stop_after := Stop_after_lex), "Stop after lexing");
-    ("--parse-only", Arg.Unit (fun () -> stop_after := Stop_after_parse), "Stop after parsing");
-    ("--type-only", Arg.Unit (fun () -> stop_after := Stop_after_type), "Stop after typing");
+    (
+      "--lex-only",
+      Arg.Unit (fun () -> stop_after := Stop_after_lex),
+      "Stop after lexing"
+    );
+    (
+      "--parse-only",
+      Arg.Unit (fun () -> stop_after := Stop_after_parse),
+      "Stop after parsing"
+    );
+    (
+      "--type-only",
+      Arg.Unit (fun () -> stop_after := Stop_after_type),
+      "Stop after typing"
+    );
+    (
+      "--type-graph-only",
+      Arg.Unit (fun () -> stop_after := Stop_after_type_graph),
+      "Stop after typing, with graph output"
+    );
   ] in
   let input_filenames = ref [] in
   Arg.parse speclist (fun input_filename -> input_filenames := !input_filenames @ [input_filename]) "petitc [options] file";
