@@ -1,4 +1,7 @@
-{ Ast.file_func_decls =
+{ Ast.file_loc =
+  (File "../../../test/parse_complex.c", line 1, characters 0-1,
+   File "../../../test/parse_complex.c", line 23, characters 0-1);
+  file_func_decls =
   [{ Ast.func_decl_loc =
      (File "../../../test/parse_complex.c", line 5, characters 0-1,
       File "../../../test/parse_complex.c", line 11, characters 1-2);

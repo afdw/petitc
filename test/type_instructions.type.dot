@@ -184,4 +184,24 @@ int var_i]";
         <tr><td></td></tr></table>>];
         "group_2::decl_test_3::group_end_0" -> "group_2::func_test_3::func_end";
     }
+    subgraph "cluster_3" {
+        label = "int func_main() []";
+        "group_3::func_main::source"[style = invisible];
+        "group_3::func_main::source" -> "group_3::decl_main::group_0::block_expr::group_0::instr_return::return"
+        "group_3::func_main::func_end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>func_end</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_3::func_main::func_end::sink"[style = invisible];
+        "group_3::func_main::func_end" -> "group_3::func_main::func_end::sink" [label="unreachable"];
+        "group_3::decl_main::group_0::block_expr::group_0::instr_return::return"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>return</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_3::decl_main::group_0::block_expr::group_0::instr_return::return::sink"[style = invisible];
+        "group_3::decl_main::group_0::block_expr::group_0::instr_return::return" -> "group_3::decl_main::group_0::block_expr::group_0::instr_return::return::sink" [label="return (0
+: int)"];
+        "group_3::decl_main::group_0::block_expr::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_3::decl_main::group_0::block_expr::group_end_0" -> "group_3::decl_main::group_end_0";
+        "group_3::decl_main::group_end_0"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>group_end_0</td></tr>
+        <tr><td></td></tr></table>>];
+        "group_3::decl_main::group_end_0" -> "group_3::func_main::func_end";
+    }
 }

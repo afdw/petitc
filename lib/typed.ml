@@ -90,6 +90,7 @@ type env = {
   env_scope_path : path;
   env_bindings : (string * binding) list;
   env_used_idents : (string * (Lexing.position [@printer Utils.pp_position])) list;
+  env_is_function_scope : bool;
 } [@@deriving show]
 
 type const =
@@ -202,7 +203,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
   | Ast.Expr_desc_var var_name -> (
     match env.env_bindings |> List.assoc_opt var_name with
     | None ->
-      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.sprintf "variable `%s` not found" var_name))
+      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "variable `%s` not found" var_name))
     | Some (Binding_var { path; typ }) ->
       {
         expr_typ = typ;
@@ -212,12 +213,12 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         );
       }
     | Some _ ->
-      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.sprintf "`%s` is not a variable" var_name))
+      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "`%s` is not a variable" var_name))
   )
   | Ast.Expr_desc_call (var_name, arg_ast_exprs) -> (
     match env.env_bindings |> List.assoc_opt var_name with
     | None ->
-      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.sprintf "function `%s` not found" var_name))
+      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "function `%s` not found" var_name))
     | Some (Binding_func { path; return_typ; param_typs }) ->
       let args = arg_ast_exprs |> List.map (typeck_ast_expr env) in
       if List.length args <> List.length param_typs then
@@ -239,7 +240,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       done;
       { expr_typ = return_typ; expr_desc = Expr_desc_call (path, args) }
     | Some _ ->
-      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.sprintf "`%s` is not a function" var_name))
+      raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "`%s` is not a function" var_name))
   )
   | Ast.Expr_desc_const Ast.Const_true -> { expr_typ = Typ_bool; expr_desc = Expr_desc_const (Const_int 1L) }
   | Ast.Expr_desc_const Ast.Const_false -> { expr_typ = Typ_bool; expr_desc = Expr_desc_const (Const_int 0L) }
@@ -418,7 +419,6 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         );
       }
     | Ast.Bin_op_add, _, Typ_pointer typ
-    | Ast.Bin_op_sub, _, Typ_pointer typ
       when typ_equivalent Typ_int expr_1.expr_typ ->
       {
         expr_typ = Typ_pointer typ;
@@ -612,7 +612,8 @@ let rec typeck_ast_instr (env : env) (continuation : continuation)
     } in
     let new_env = {
       renamed_env with
-      env_used_idents = []
+      env_used_idents = if env.env_is_function_scope then env.env_used_idents else [];
+      env_is_function_scope = false;
     } in
     ast_instr_decls
       |> typeck_ast_instr_decls new_env continuation
@@ -827,6 +828,7 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
       extended_env with
       env_scope_path = env.env_scope_path |> path_append ("decl_" ^ ast_func_decl.func_decl_name);
       env_used_idents = [];
+      env_is_function_scope = true;
     } in
     let param_inst_decls = ast_func_decl.func_decl_params |> List.map (fun (ast_param : Ast.param) ->
       Ast.Instr_decl_var {
@@ -893,6 +895,7 @@ and typeck_ast_var_decl (env : env) (next_block_path : path)
       ));
     let path = env.env_scope_path |> path_append ("var_" ^ ast_var_decl.var_decl_name) in
     let extended_env = {
+      env with
       env_scope_path = env.env_scope_path |> path_append ("with_" ^ ast_var_decl.var_decl_name);
       env_bindings = (ast_var_decl.var_decl_name, Binding_var { path; typ }) :: env.env_bindings;
       env_used_idents = (ast_var_decl.var_decl_name, fst ast_var_decl.var_decl_loc) :: env.env_used_idents;
@@ -1045,6 +1048,7 @@ let typeck_ast_file (ast_file : Ast.file) : program =
       );
     ];
     env_used_idents = [("malloc", builtin_position); ("putchar", builtin_position)];
+    env_is_function_scope = false;
   } in
   let result_cumulation = ast_file.file_func_decls
     |> List.map (fun func_decl -> Ast.Instr_decl_func func_decl)
@@ -1054,9 +1058,21 @@ let typeck_ast_file (ast_file : Ast.file) : program =
       continuation_break_block_path = None;
       continuation_continue_block_path = None;
      } in
-  {
-    program_funcs = result_cumulation.cumulation_funcs;
-  }
+  let (_, env) = result_cumulation.cumulation_data in
+  match env.env_bindings |> List.assoc_opt "main" with
+  | None ->
+    raise (Error (fst ast_file.file_loc, env.env_scope_path, "`main` function not found"))
+  | Some (Binding_func { return_typ = Typ_int; param_typs = []; _ }) ->
+    {
+      program_funcs = result_cumulation.cumulation_funcs;
+    }
+  | Some binding ->
+    raise (Error (
+      fst ast_file.file_loc,
+      env.env_scope_path,
+      Format.asprintf "%a is not a `main` function of the required signature"
+        pp_binding binding
+    ))
 
 let pp_program_graph (formatter : Format.formatter) (program : program) : unit =
   simplified_pp_path := true;

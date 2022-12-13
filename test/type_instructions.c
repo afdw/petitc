@@ -29,3 +29,7 @@ int test_3() {
     }
     return res;
 }
+
+int main() {
+    return 0;
+}

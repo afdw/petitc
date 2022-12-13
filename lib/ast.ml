@@ -104,5 +104,6 @@ and instr_decl =
   [@@deriving show]
 
 type file = {
+  file_loc : loc;
   file_func_decls : func_decl list;
 } [@@deriving show]

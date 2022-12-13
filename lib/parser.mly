@@ -215,6 +215,7 @@ instr_decl:
 file:
   | INCLUDE*; func_decls = func_decl*; EOF {
     {
+      file_loc = ($startpos, $endpos);
       file_func_decls = func_decls;
     }
   }
