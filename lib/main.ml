@@ -44,5 +44,15 @@ let main ~(stop_after : stop_after) ~(input_filename : string) ~(output_filename
     let file = wrap_lexbuf_errors lexbuf (fun () -> Parser.file Lexer.token lexbuf) in
     if stop_after = Stop_after_parse then
       Format.fprintf output_formatter "%a@." Ast.pp_file file
+    else
+      let program =
+        try Typed.typeck_ast_file file with
+        | Typed.Error (position, path, error_text) ->
+          raise (Compilation_error (
+            position,
+            Format.asprintf "typeing error for `%a`: %s" Typed.pp_path path error_text
+          )) in
+      if stop_after = Stop_after_type then
+        Format.fprintf output_formatter "%a@." Typed.pp_program program
   );
   close_out output_channel

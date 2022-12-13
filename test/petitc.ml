@@ -31,3 +31,6 @@ let () =
 
 let () =
   test_compilation ~stop_after:Stop_after_parse ~input_filename:"../../../test/parsing.c"
+
+  let () =
+    test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/expression_types.c"

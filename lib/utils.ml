@@ -1,3 +1,6 @@
+let lists_disjoint (type a) (list_1 : a list) (list_2 : a list) : bool =
+  list_1 |> List.for_all (fun x -> not (list_2 |> List.mem x))
+
 let read_all (channel : in_channel) : string =
   let chunks = ref [] in
   let continue = ref true in
@@ -13,5 +16,5 @@ let pp_position (formatter : Format.formatter) (position : Lexing.position) : un
   let c = position.pos_cnum - position.pos_bol + 1 in
   Format.fprintf formatter "File \"%s\", line %d, characters %d-%d" position.pos_fname position.pos_lnum (c - 1) c
 
-let show_typ (position : Lexing.position) : string =
+let show_position (position : Lexing.position) : string =
   Format.asprintf "%a" pp_position position
