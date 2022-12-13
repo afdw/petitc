@@ -1,0 +1,50 @@
+File "../../../test/lex_tokens.c", line 1, characters 0-1: BOOL
+File "../../../test/lex_tokens.c", line 1, characters 0-1: BREAK
+File "../../../test/lex_tokens.c", line 1, characters 5-6: CONTINUE
+File "../../../test/lex_tokens.c", line 1, characters 11-12: ELSE
+File "../../../test/lex_tokens.c", line 1, characters 20-21: FALSE
+File "../../../test/lex_tokens.c", line 1, characters 25-26: FOR
+File "../../../test/lex_tokens.c", line 1, characters 31-32: IF
+File "../../../test/lex_tokens.c", line 1, characters 35-36: INT
+File "../../../test/lex_tokens.c", line 2, characters 0-1: NULL
+File "../../../test/lex_tokens.c", line 2, characters 4-5: RETURN
+File "../../../test/lex_tokens.c", line 2, characters 9-10: SIZEOF
+File "../../../test/lex_tokens.c", line 2, characters 16-17: TRUE
+File "../../../test/lex_tokens.c", line 2, characters 23-24: VOID
+File "../../../test/lex_tokens.c", line 2, characters 28-29: WHILE
+File "../../../test/lex_tokens.c", line 2, characters 33-34: (IDENT "ident")
+File "../../../test/lex_tokens.c", line 3, characters 0-1: (LIT 0L)
+File "../../../test/lex_tokens.c", line 4, characters 0-1: (LIT 123L)
+File "../../../test/lex_tokens.c", line 5, characters 0-1: (LIT 97L)
+File "../../../test/lex_tokens.c", line 6, characters 0-1: (LIT 92L)
+File "../../../test/lex_tokens.c", line 7, characters 0-1: (LIT 39L)
+File "../../../test/lex_tokens.c", line 8, characters 0-1: (LIT 10L)
+File "../../../test/lex_tokens.c", line 9, characters 0-1: (LIT 9L)
+File "../../../test/lex_tokens.c", line 10, characters 0-1: (INCLUDE "header.h")
+File "../../../test/lex_tokens.c", line 11, characters 0-1: LPAREN
+File "../../../test/lex_tokens.c", line 12, characters 0-1: RPAREN
+File "../../../test/lex_tokens.c", line 13, characters 0-1: LBRACKET
+File "../../../test/lex_tokens.c", line 14, characters 0-1: RBRACKET
+File "../../../test/lex_tokens.c", line 15, characters 0-1: LBRACE
+File "../../../test/lex_tokens.c", line 16, characters 0-1: RBRACE
+File "../../../test/lex_tokens.c", line 17, characters 0-1: COMMA
+File "../../../test/lex_tokens.c", line 18, characters 0-1: SEMICOLON
+File "../../../test/lex_tokens.c", line 19, characters 0-1: PLUS_PLUS
+File "../../../test/lex_tokens.c", line 20, characters 0-1: PLUS
+File "../../../test/lex_tokens.c", line 21, characters 0-1: MINUS_MINUS
+File "../../../test/lex_tokens.c", line 22, characters 0-1: MINUS
+File "../../../test/lex_tokens.c", line 23, characters 0-1: STAR
+File "../../../test/lex_tokens.c", line 24, characters 0-1: SLASH
+File "../../../test/lex_tokens.c", line 25, characters 0-1: PERCENT
+File "../../../test/lex_tokens.c", line 26, characters 0-1: AMPERSAND_AMPERSAND
+File "../../../test/lex_tokens.c", line 27, characters 0-1: AMPERSAND
+File "../../../test/lex_tokens.c", line 28, characters 0-1: BAR_BAR
+File "../../../test/lex_tokens.c", line 29, characters 0-1: EXCLAMATION_EQUALS
+File "../../../test/lex_tokens.c", line 30, characters 0-1: EXCLAMATION
+File "../../../test/lex_tokens.c", line 31, characters 0-1: EQUALS_EQUALS
+File "../../../test/lex_tokens.c", line 32, characters 0-1: EQUALS
+File "../../../test/lex_tokens.c", line 33, characters 0-1: LESS_EQUALS
+File "../../../test/lex_tokens.c", line 34, characters 0-1: LESS
+File "../../../test/lex_tokens.c", line 35, characters 0-1: GREATER_EQUALS
+File "../../../test/lex_tokens.c", line 36, characters 0-1: GREATER
+File "../../../test/lex_tokens.c", line 37, characters 0-1: EOF

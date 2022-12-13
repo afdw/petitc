@@ -1,0 +1,1 @@
+File "../../../test/lex_comments.c", line 1, characters 0-1: EOF

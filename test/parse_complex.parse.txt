@@ -1,0 +1,317 @@
+{ Ast.file_func_decls =
+  [{ Ast.func_decl_loc =
+     (File "../../../test/parse_complex.c", line 5, characters 0-1,
+      File "../../../test/parse_complex.c", line 11, characters 1-2);
+     func_decl_name = "test_1"; func_decl_return_typ = Ast.Typ_void;
+     func_decl_params =
+     [{ Ast.param_loc =
+        (File "../../../test/parse_complex.c", line 5, characters 12-13,
+         File "../../../test/parse_complex.c", line 5, characters 17-18);
+        param_name = "a"; param_typ = Ast.Typ_int };
+       { Ast.param_loc =
+         (File "../../../test/parse_complex.c", line 5, characters 19-20,
+          File "../../../test/parse_complex.c", line 5, characters 25-26);
+         param_name = "b"; param_typ = (Ast.Typ_pointer Ast.Typ_int) };
+       { Ast.param_loc =
+         (File "../../../test/parse_complex.c", line 5, characters 27-28,
+          File "../../../test/parse_complex.c", line 5, characters 33-34);
+         param_name = "c"; param_typ = Ast.Typ_bool }
+       ];
+     func_decl_body =
+     { Ast.instr_loc =
+       (File "../../../test/parse_complex.c", line 5, characters 35-36,
+        File "../../../test/parse_complex.c", line 11, characters 1-2);
+       instr_desc =
+       (Ast.Instr_desc_block
+          [(Ast.Instr_decl_instr
+              { Ast.instr_loc =
+                (File "../../../test/parse_complex.c", line 6, characters 4-5,
+                 File "../../../test/parse_complex.c", line 10, characters 18-19);
+                instr_desc =
+                (Ast.Instr_desc_if (
+                   { Ast.expr_loc =
+                     (File "../../../test/parse_complex.c", line 6, characters 8-9,
+                      File "../../../test/parse_complex.c", line 6, characters 13-14);
+                     expr_desc =
+                     (Ast.Expr_desc_bin_op (Ast.Bin_op_gt,
+                        { Ast.expr_loc =
+                          (File "../../../test/parse_complex.c", line 6, characters 8-9,
+                           File "../../../test/parse_complex.c", line 6, characters 9-10);
+                          expr_desc = (Ast.Expr_desc_var "i") },
+                        { Ast.expr_loc =
+                          (File "../../../test/parse_complex.c", line 6, characters 12-13,
+                           File "../../../test/parse_complex.c", line 6, characters 13-14);
+                          expr_desc = (Ast.Expr_desc_const (Ast.Const_int 0L)) }
+                        ))
+                     },
+                   { Ast.instr_loc =
+                     (File "../../../test/parse_complex.c", line 7, characters 8-9,
+                      File "../../../test/parse_complex.c", line 10, characters 18-19);
+                     instr_desc =
+                     (Ast.Instr_desc_if (
+                        { Ast.expr_loc =
+                          (File "../../../test/parse_complex.c", line 7, characters 12-13,
+                           File "../../../test/parse_complex.c", line 7, characters 17-18);
+                          expr_desc =
+                          (Ast.Expr_desc_bin_op (Ast.Bin_op_gt,
+                             { Ast.expr_loc =
+                               (File "../../../test/parse_complex.c", line 7, characters 12-13,
+                                File "../../../test/parse_complex.c", line 7, characters 13-14);
+                               expr_desc = (Ast.Expr_desc_var "j") },
+                             { Ast.expr_loc =
+                               (File "../../../test/parse_complex.c", line 7, characters 16-17,
+                                File "../../../test/parse_complex.c", line 7, characters 17-18);
+                               expr_desc = (Ast.Expr_desc_var "i") }
+                             ))
+                          },
+                        { Ast.instr_loc =
+                          (File "../../../test/parse_complex.c", line 8, characters 12-13,
+                           File "../../../test/parse_complex.c", line 8, characters 18-19);
+                          instr_desc =
+                          (Ast.Instr_desc_expr
+                             { Ast.expr_loc =
+                               (File "../../../test/parse_complex.c", line 8, characters 12-13,
+                                File "../../../test/parse_complex.c", line 8, characters 17-18);
+                               expr_desc =
+                               (Ast.Expr_desc_bin_op (Ast.Bin_op_assign,
+                                  { Ast.expr_loc =
+                                    (File "../../../test/parse_complex.c", line 8, characters 12-13,
+                                     File "../../../test/parse_complex.c", line 8, characters 13-14);
+                                    expr_desc = (Ast.Expr_desc_var "x") },
+                                  { Ast.expr_loc =
+                                    (File "../../../test/parse_complex.c", line 8, characters 16-17,
+                                     File "../../../test/parse_complex.c", line 8, characters 17-18);
+                                    expr_desc = (Ast.Expr_desc_var "j") }
+                                  ))
+                               })
+                          },
+                        { Ast.instr_loc =
+                          (File "../../../test/parse_complex.c", line 10, characters 12-13,
+                           File "../../../test/parse_complex.c", line 10, characters 18-19);
+                          instr_desc =
+                          (Ast.Instr_desc_expr
+                             { Ast.expr_loc =
+                               (File "../../../test/parse_complex.c", line 10, characters 12-13,
+                                File "../../../test/parse_complex.c", line 10, characters 17-18);
+                               expr_desc =
+                               (Ast.Expr_desc_bin_op (Ast.Bin_op_assign,
+                                  { Ast.expr_loc =
+                                    (File "../../../test/parse_complex.c", line 10, characters 12-13,
+                                     File "../../../test/parse_complex.c", line 10, characters 13-14);
+                                    expr_desc = (Ast.Expr_desc_var "x") },
+                                  { Ast.expr_loc =
+                                    (File "../../../test/parse_complex.c", line 10, characters 16-17,
+                                     File "../../../test/parse_complex.c", line 10, characters 17-18);
+                                    expr_desc = (Ast.Expr_desc_var "i") }
+                                  ))
+                               })
+                          }
+                        ))
+                     },
+                   { Ast.instr_loc = (File "", line 0, characters -1-0, File "", line 0, characters -1-0);
+                     instr_desc = (Ast.Instr_desc_block []) }
+                   ))
+                })
+            ])
+       }
+     };
+    { Ast.func_decl_loc =
+      (File "../../../test/parse_complex.c", line 13, characters 0-1,
+       File "../../../test/parse_complex.c", line 16, characters 1-2);
+      func_decl_name = "test_2"; func_decl_return_typ = Ast.Typ_void; 
+      func_decl_params = [];
+      func_decl_body =
+      { Ast.instr_loc =
+        (File "../../../test/parse_complex.c", line 13, characters 14-15,
+         File "../../../test/parse_complex.c", line 16, characters 1-2);
+        instr_desc =
+        (Ast.Instr_desc_block
+           [(Ast.Instr_decl_var
+               { Ast.var_decl_loc =
+                 (File "../../../test/parse_complex.c", line 14, characters 4-5,
+                  File "../../../test/parse_complex.c", line 14, characters 18-19);
+                 var_decl_name = "x"; var_decl_typ = Ast.Typ_int;
+                 var_decl_init =
+                 (Some { Ast.expr_loc =
+                         (File "../../../test/parse_complex.c", line 14, characters 12-13,
+                          File "../../../test/parse_complex.c", line 14, characters 18-19);
+                         expr_desc =
+                         (Ast.Expr_desc_bin_op (Ast.Bin_op_add,
+                            { Ast.expr_loc =
+                              (File "../../../test/parse_complex.c", line 14, characters 12-13,
+                               File "../../../test/parse_complex.c", line 14, characters 14-15);
+                              expr_desc =
+                              (Ast.Expr_desc_un_op (Ast.Un_op_neg,
+                                 { Ast.expr_loc =
+                                   (File "../../../test/parse_complex.c", line 14, characters 13-14,
+                                    File "../../../test/parse_complex.c", line 14, characters 14-15);
+                                   expr_desc = (Ast.Expr_desc_const (Ast.Const_int 5L)) }
+                                 ))
+                              },
+                            { Ast.expr_loc =
+                              (File "../../../test/parse_complex.c", line 14, characters 17-18,
+                               File "../../../test/parse_complex.c", line 14, characters 18-19);
+                              expr_desc = (Ast.Expr_desc_const (Ast.Const_int 3L)) }
+                            ))
+                         })
+                 });
+             (Ast.Instr_decl_var
+                { Ast.var_decl_loc =
+                  (File "../../../test/parse_complex.c", line 15, characters 4-5,
+                   File "../../../test/parse_complex.c", line 15, characters 17-18);
+                  var_decl_name = "y"; var_decl_typ = Ast.Typ_int;
+                  var_decl_init =
+                  (Some { Ast.expr_loc =
+                          (File "../../../test/parse_complex.c", line 15, characters 12-13,
+                           File "../../../test/parse_complex.c", line 15, characters 17-18);
+                          expr_desc =
+                          (Ast.Expr_desc_un_op (Ast.Un_op_neg,
+                             { Ast.expr_loc =
+                               (File "../../../test/parse_complex.c", line 15, characters 13-14,
+                                File "../../../test/parse_complex.c", line 15, characters 17-18);
+                               expr_desc =
+                               (Ast.Expr_desc_un_op (Ast.Un_op_deref,
+                                  { Ast.expr_loc =
+                                    (File "../../../test/parse_complex.c", line 15, characters 13-14,
+                                     File "../../../test/parse_complex.c", line 15, characters 17-18);
+                                    expr_desc =
+                                    (Ast.Expr_desc_bin_op (Ast.Bin_op_add,
+                                       { Ast.expr_loc =
+                                         (File "../../../test/parse_complex.c", line 15, characters 13-14,
+                                          File "../../../test/parse_complex.c", line 15, characters 14-15);
+                                         expr_desc = (Ast.Expr_desc_var "a") },
+                                       { Ast.expr_loc =
+                                         (File "../../../test/parse_complex.c", line 15, characters 15-16,
+                                          File "../../../test/parse_complex.c", line 15, characters 16-17);
+                                         expr_desc = (Ast.Expr_desc_const (Ast.Const_int 8L)) }
+                                       ))
+                                    }
+                                  ))
+                               }
+                             ))
+                          })
+                  })
+             ])
+        }
+      };
+    { Ast.func_decl_loc =
+      (File "../../../test/parse_complex.c", line 18, characters 0-1,
+       File "../../../test/parse_complex.c", line 22, characters 1-2);
+      func_decl_name = "test_3"; func_decl_return_typ = Ast.Typ_void; 
+      func_decl_params = [];
+      func_decl_body =
+      { Ast.instr_loc =
+        (File "../../../test/parse_complex.c", line 18, characters 14-15,
+         File "../../../test/parse_complex.c", line 22, characters 1-2);
+        instr_desc =
+        (Ast.Instr_desc_block
+           [(Ast.Instr_decl_instr
+               { Ast.instr_loc =
+                 (File "../../../test/parse_complex.c", line 19, characters 4-5,
+                  File "../../../test/parse_complex.c", line 21, characters 5-6);
+                 instr_desc =
+                 (Ast.Instr_desc_block
+                    [(Ast.Instr_decl_var
+                        { Ast.var_decl_loc =
+                          (File "../../../test/parse_complex.c", line 19, characters 9-10,
+                           File "../../../test/parse_complex.c", line 19, characters 18-19);
+                          var_decl_name = "x"; var_decl_typ = Ast.Typ_int;
+                          var_decl_init =
+                          (Some { Ast.expr_loc =
+                                  (File "../../../test/parse_complex.c", line 19, characters 17-18,
+                                   File "../../../test/parse_complex.c", line 19, characters 18-19);
+                                  expr_desc = (Ast.Expr_desc_const (Ast.Const_int 5L)) })
+                          });
+                      (Ast.Instr_decl_instr
+                         { Ast.instr_loc =
+                           (File "../../../test/parse_complex.c", line 19, characters 20-21,
+                            File "../../../test/parse_complex.c", line 21, characters 5-6);
+                           instr_desc =
+                           (Ast.Instr_desc_for (
+                              { Ast.expr_loc =
+                                (File "../../../test/parse_complex.c", line 19, characters 20-21,
+                                 File "../../../test/parse_complex.c", line 19, characters 26-27);
+                                expr_desc =
+                                (Ast.Expr_desc_bin_op (Ast.Bin_op_lt,
+                                   { Ast.expr_loc =
+                                     (File "../../../test/parse_complex.c", line 19, characters 20-21,
+                                      File "../../../test/parse_complex.c", line 19, characters 21-22);
+                                     expr_desc = (Ast.Expr_desc_var "x") },
+                                   { Ast.expr_loc =
+                                     (File "../../../test/parse_complex.c", line 19, characters 24-25,
+                                      File "../../../test/parse_complex.c", line 19, characters 26-27);
+                                     expr_desc = (Ast.Expr_desc_const (Ast.Const_int 10L)) }
+                                   ))
+                                },
+                              [{ Ast.expr_loc =
+                                 (File "../../../test/parse_complex.c", line 19, characters 28-29,
+                                  File "../../../test/parse_complex.c", line 19, characters 31-32);
+                                 expr_desc =
+                                 (Ast.Expr_desc_un_op (Ast.Un_op_post_incr,
+                                    { Ast.expr_loc =
+                                      (File "../../../test/parse_complex.c", line 19, characters 28-29,
+                                       File "../../../test/parse_complex.c", line 19, characters 29-30);
+                                      expr_desc = (Ast.Expr_desc_var "x") }
+                                    ))
+                                 };
+                                { Ast.expr_loc =
+                                  (File "../../../test/parse_complex.c", line 19, characters 33-34,
+                                   File "../../../test/parse_complex.c", line 19, characters 42-43);
+                                  expr_desc =
+                                  (Ast.Expr_desc_bin_op (Ast.Bin_op_assign,
+                                     { Ast.expr_loc =
+                                       (File "../../../test/parse_complex.c", line 19, characters 33-34,
+                                        File "../../../test/parse_complex.c", line 19, characters 34-35);
+                                       expr_desc = (Ast.Expr_desc_var "x") },
+                                     { Ast.expr_loc =
+                                       (File "../../../test/parse_complex.c", line 19, characters 37-38,
+                                        File "../../../test/parse_complex.c", line 19, characters 42-43);
+                                       expr_desc =
+                                       (Ast.Expr_desc_bin_op (Ast.Bin_op_mul,
+                                          { Ast.expr_loc =
+                                            (File "../../../test/parse_complex.c", line 19, characters 37-38,
+                                             File "../../../test/parse_complex.c", line 19, characters 38-39);
+                                            expr_desc = (Ast.Expr_desc_var "x") },
+                                          { Ast.expr_loc =
+                                            (File "../../../test/parse_complex.c", line 19, characters 41-42,
+                                             File "../../../test/parse_complex.c", line 19, characters 42-43);
+                                            expr_desc = (Ast.Expr_desc_const (Ast.Const_int 2L)) }
+                                          ))
+                                       }
+                                     ))
+                                  }
+                                ],
+                              { Ast.instr_loc =
+                                (File "../../../test/parse_complex.c", line 19, characters 44-45,
+                                 File "../../../test/parse_complex.c", line 21, characters 5-6);
+                                instr_desc =
+                                (Ast.Instr_desc_block
+                                   [(Ast.Instr_decl_instr
+                                       { Ast.instr_loc =
+                                         (File "../../../test/parse_complex.c", line 20, characters 8-9,
+                                          File "../../../test/parse_complex.c", line 20, characters 12-13);
+                                         instr_desc =
+                                         (Ast.Instr_desc_expr
+                                            { Ast.expr_loc =
+                                              (File "../../../test/parse_complex.c", line 20, characters 8-9,
+                                               File "../../../test/parse_complex.c", line 20, characters 11-12);
+                                              expr_desc =
+                                              (Ast.Expr_desc_un_op (Ast.Un_op_post_decr,
+                                                 { Ast.expr_loc =
+                                                   (File "../../../test/parse_complex.c", line 20, characters 8-9,
+                                                    File "../../../test/parse_complex.c", line 20, characters 9-10);
+                                                   expr_desc = (Ast.Expr_desc_var "x") }
+                                                 ))
+                                              })
+                                         })
+                                     ])
+                                }
+                              ))
+                           })
+                      ])
+                 })
+             ])
+        }
+      }
+    ]
+  }

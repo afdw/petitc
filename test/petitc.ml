@@ -17,20 +17,20 @@ let test_compilation ~(stop_after : stop_after) ~(input_filename : string) : uni
   )
 
 let () =
-  test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/comments.c"
+  test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/lex_comments.c"
 
 let () =
   try
-    test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/unclosed_comment.c";
+    test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/lex_unclosed_comment.c";
     failwith "error expected"
   with
   | Compilation_error(_, "lexing error: unclosed comment") -> ()
 
 let () =
-  test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/tokens.c"
+  test_compilation ~stop_after:Stop_after_lex ~input_filename:"../../../test/lex_tokens.c"
 
 let () =
-  test_compilation ~stop_after:Stop_after_parse ~input_filename:"../../../test/parsing.c"
+  test_compilation ~stop_after:Stop_after_parse ~input_filename:"../../../test/parse_complex.c"
 
   let () =
-    test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/expression_types.c"
+    test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/type_expressions.c"
