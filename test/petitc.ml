@@ -32,5 +32,21 @@ let () =
 let () =
   test_compilation ~stop_after:Stop_after_parse ~input_filename:"../../../test/parse_complex.c"
 
-  let () =
-    test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/type_expressions.c"
+let () =
+  test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/type_expressions.c"
+
+let () =
+  try
+    test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/type_no_function.c";
+    failwith "error expected"
+  with
+  | Compilation_error(_, "typeing error for `group_0::decl_a::group_0::block_expr::group_0::instr_expr`: \
+    function `b` not found") -> ()
+
+let () =
+  try
+    test_compilation ~stop_after:Stop_after_type ~input_filename:"../../../test/type_wrong_argument_type.c";
+    failwith "error expected"
+  with
+  | Compilation_error(_, "typeing error for `group_1::decl_b::group_0::block_expr::group_0::instr_expr`: \
+    argument #0 to the function `group_0::func_a` has type void* instead of int") -> ()

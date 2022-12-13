@@ -551,11 +551,12 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
       env with
       env_bindings =
         (ast_func_decl.func_decl_name, Binding_func { path; return_typ; param_typs }) :: env.env_bindings;
-      env_used_idents = [(ast_func_decl.func_decl_name, fst ast_func_decl.func_decl_loc)];
+      env_used_idents = (ast_func_decl.func_decl_name, fst ast_func_decl.func_decl_loc) :: env.env_used_idents;
     } in
     let inner_env = {
       extended_env with
       env_scope_path = env.env_scope_path |> path_append ("decl_" ^ ast_func_decl.func_decl_name);
+      env_used_idents = [];
     } in
     let param_inst_decls = ast_func_decl.func_decl_params |> List.map (fun (ast_param : Ast.param) ->
       Ast.Instr_decl_var {
