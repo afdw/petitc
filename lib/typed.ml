@@ -83,6 +83,7 @@ type const =
   [@@deriving show]
 
 type un_op =
+  | Un_op_nonnull
   | Un_op_not
   | Un_op_pre_incr
   | Un_op_pre_decr
@@ -133,6 +134,7 @@ let rec pp_expr_desc (formatter : Format.formatter) (expr_desc : expr_desc) : un
     ) arg_exprs
   | Expr_desc_const Const_null -> Format.fprintf formatter "NULL"
   | Expr_desc_const (Const_int n) -> Format.fprintf formatter "%Ld" n
+  | Expr_desc_un_op (Un_op_nonnull, expr_1) -> Format.fprintf formatter "?%a" pp_expr expr_1
   | Expr_desc_un_op (Un_op_not, expr_1) -> Format.fprintf formatter "!%a" pp_expr expr_1
   | Expr_desc_un_op (Un_op_pre_incr, expr_1) -> Format.fprintf formatter "--%a" pp_expr expr_1
   | Expr_desc_un_op (Un_op_pre_decr, expr_1) -> Format.fprintf formatter "--%a" pp_expr expr_1

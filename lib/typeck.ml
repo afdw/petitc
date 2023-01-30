@@ -16,6 +16,11 @@ type env = {
   env_is_function_scope : bool;
 } [@@deriving show]
 
+let cast (typ : typ) (expr : expr) : expr =
+  match expr.expr_typ, typ with
+  | Typ_int, Typ_bool -> { expr_typ = typ; expr_desc = Expr_desc_un_op (Un_op_nonnull, expr) }
+  | _, _ -> expr
+
 let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
   match ast_expr.expr_desc with
   | Ast.Expr_desc_var var_name -> (
@@ -45,9 +50,8 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
           env.env_scope_path,
           Format.asprintf "wrong number of arguments to the function `%a`" pp_path path
         ));
-      for i = 0 to List.length param_typs - 1 do
-        let expected_typ = List.nth param_typs i in
-        let actual_typ = (List.nth args i).expr_typ in
+      let casted_args = List.fold_left2 (fun converted_args (i, expected_typ) arg ->
+        let actual_typ = arg.expr_typ in
         if not (typ_equivalent expected_typ actual_typ) then
           raise (Error (
             fst ast_expr.expr_loc,
@@ -55,8 +59,9 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
             Format.asprintf "argument #%d to the function `%a`@ has type %a instead of %a"
               i pp_path path pp_typ actual_typ pp_typ expected_typ
           ));
-      done;
-      { expr_typ = return_typ; expr_desc = Expr_desc_call (path, args) }
+        converted_args @ [cast expected_typ arg]
+      ) [] (param_typs |> List.mapi (fun i typ -> (i, typ))) args in
+      { expr_typ = return_typ; expr_desc = Expr_desc_call (path, casted_args) }
     | Some _ ->
       raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "`%s` is not a function" var_name))
   )
@@ -323,7 +328,10 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
             pp_typ expr_1.expr_typ
             pp_typ expr_2.expr_typ
         ));
-      { expr_typ = expr_1.expr_typ; expr_desc = Expr_desc_bin_op (Bin_op_assign, expr_1_pointer, expr_2) }
+      {
+        expr_typ = expr_1.expr_typ;
+        expr_desc = Expr_desc_bin_op (Bin_op_assign, expr_1_pointer, cast expr_1.expr_typ expr_2);
+      }
     | _ ->
       raise (Error (
         fst ast_expr.expr_loc,
