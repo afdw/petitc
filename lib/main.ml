@@ -48,8 +48,8 @@ let main ~(stop_after : stop_after) ~(input_filename : string) ~(output_filename
       Format.fprintf output_formatter "%a@." Ast.pp_file file
     else
       let program =
-        try Typed.typeck_ast_file file with
-        | Typed.Error (position, path, error_text) ->
+        try Typeck.typeck_ast_file file with
+        | Typeck.Error (position, path, error_text) ->
           raise (Compilation_error (
             position,
             Format.asprintf "typeing error for `%a`:@ %s" Typed.pp_path path error_text
