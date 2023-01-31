@@ -33,32 +33,34 @@ let rec emit_expr (var_offsets : (path * int) list) (expr : expr) : string =
       match un_op with
       | Un_op_nonnull ->
         "    testq %rax, %rax\n" ^
-        "    setnz %rax\n"
+        "    setnz %al\n" ^
+        "    andq $1, %rax\n"
       | Un_op_not ->
         "    testq %rax, %rax\n" ^
-        "    setz %rax\n"
+        "    setz %al\n" ^
+        "    andq $1, %rax\n"
       | Un_op_pre_incr n ->
+        "    movq (%rax), %rbx\n" ^
+        "    addq $" ^ (string_of_int n) ^ ", %rbx\n" ^
+        "    movq %rbx, (%rax)\n" ^
+        "    movq %rbx, %rax\n"
+      | Un_op_pre_decr n ->
+        "    movq (%rax), %rbx\n" ^
+        "    subq $" ^ (string_of_int n) ^ ", %rbx\n" ^
+        "    movq %rbx, (%rax)\n" ^
+        "    movq %rbx, %rax\n"
+      | Un_op_post_incr n ->
         "    movq (%rax), %rbx\n" ^
         "    addq $" ^ (string_of_int n) ^ ", %rbx\n" ^
         "    movq %rbx, (%rax)\n" ^
         "    movq %rbx, %rax\n" ^
         "    subq $" ^ (string_of_int n) ^ ", %rax\n"
-      | Un_op_pre_decr n ->
+      | Un_op_post_decr n ->
         "    movq (%rax), %rbx\n" ^
         "    subq $" ^ (string_of_int n) ^ ", %rbx\n" ^
         "    movq %rbx, (%rax)\n" ^
         "    movq %rbx, %rax\n" ^
         "    addq $" ^ (string_of_int n) ^ ", %rax\n"
-      | Un_op_post_incr n ->
-        "    movq (%rax), %rbx\n" ^
-        "    addq $" ^ (string_of_int n) ^ ", %rbx\n" ^
-        "    movq %rbx, (%rax)\n" ^
-        "    movq %rbx, %rax\n"
-      | Un_op_post_decr n ->
-        "    movq (%rax), %rbx\n" ^
-        "    subq $" ^ (string_of_int n) ^ ", %rbx\n" ^
-        "    movq %rbx, (%rax)\n" ^
-        "    movq %rbx, %rax\n"
       | Un_op_deref ->
         "    movq (%rax), %rax\n"
     ) ^
@@ -108,18 +110,20 @@ let rec emit_expr (var_offsets : (path * int) list) (expr : expr) : string =
         "    movq %rdx, %rax\n"
       | Bin_op_and ->
         "    testq %rax, %rax\n" ^
-        "    setnz %rax\n" ^
+        "    setnz %al\n" ^
+        "    andq $1, %rax\n" ^
         "    testq %rbx, %rbx\n" ^
-        "    setnz %rbx\n" ^
-        "    andq %rbx, %rax\n" ^
-        "    andq $1, %rax\n"
+        "    setnz %bl\n" ^
+        "    andq $1, %rbx\n" ^
+        "    andq %rbx, %rax\n"
       | Bin_op_or ->
         "    testq %rax, %rax\n" ^
-        "    setnz %rax\n" ^
+        "    setnz %al\n" ^
+        "    andq $1, %rax\n" ^
         "    testq %rbx, %rbx\n" ^
-        "    setnz %rbx\n" ^
-        "    orq %rbx, %rax\n" ^
-        "    andq $1, %rax\n"
+        "    setnz %bl\n" ^
+        "    andq $1, %rbx\n" ^
+        "    orq %rbx, %rax\n"
       | Bin_op_assign ->
         "    movq %rbx, (%rax)\n" ^
         "    movq %rbx, %rax\n"

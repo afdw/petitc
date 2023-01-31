@@ -517,7 +517,8 @@
     (group_8::func_main,
      { Typed.func_decl_return_typ = int; func_decl_params = []; func_decl_vars = [];
        func_decl_blocks =
-       [(group_8::func_main::func_end, { Typed.block_exprs = []; block_action = Typed.Action_unreachable });
+       [(group_8::func_main::func_end,
+         { Typed.block_exprs = []; block_action = (Typed.Action_return (Some (0 : int))) });
          (group_8::decl_main::group_0::block_expr::group_0::instr_return::return,
           { Typed.block_exprs = []; block_action = (Typed.Action_return (Some (0 : int))) });
          (group_8::decl_main::group_0::block_expr::group_end_0,

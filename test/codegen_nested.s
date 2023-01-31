@@ -8,7 +8,11 @@ ___group_0___func_main:
   jmp ___group_0___decl_main___group_0___block_expr___group_end_0
 
   ___group_0___func_main___func_end:
-    ud2
+    pushq $0
+    popq %rax
+    movq %rbp, %rsp
+    popq %rbp
+    ret
 
   ___group_0___decl_main___group_0___block_expr___group_0___with_f___group_2___instr_expr___expr:
     pushq $10

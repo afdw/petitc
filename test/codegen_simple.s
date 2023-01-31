@@ -52,7 +52,11 @@ ___group_1___func_main:
   jmp ___group_1___decl_main___group_0___block_expr___group_0___instr_expr___expr
 
   ___group_1___func_main___func_end:
-    ud2
+    pushq $0
+    popq %rax
+    movq %rbp, %rsp
+    popq %rbp
+    ret
 
   ___group_1___decl_main___group_0___block_expr___group_0___instr_expr___expr:
     pushq $6
@@ -173,6 +177,7 @@ ___group_1___func_main:
     addq $1, %rbx
     movq %rbx, (%rax)
     movq %rbx, %rax
+    subq $1, %rax
     pushq %rax
     addq $8, %rsp
     jmp ___group_1___decl_main___group_0___block_expr___group_3___block_expr___group_0___with_i___group_1___instr_for___cond

@@ -531,7 +531,7 @@ let rec typeck_ast_instr (env : env) (continuation : continuation)
       continuation with
       continuation_fallthrough_block_path = steps_block_path;
       continuation_break_block_path = Some end_block_path;
-      continuation_continue_block_path = Some cond_block_path;
+      continuation_continue_block_path = Some steps_block_path;
     } in
     let body_block_path = body_cumulation.cumulation_data in
     let cond_block = {
@@ -667,7 +667,13 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
     let func_end_block_path = path |> path_append "func_end" in
     let func_end_block = {
       block_exprs = [];
-      block_action = if typ_equivalent Typ_void return_typ then Action_return None else Action_unreachable;
+      block_action =
+        if typ_equivalent Typ_void return_typ then
+          Action_return None
+        else if ast_func_decl.func_decl_name = "main" then
+          Action_return (Some { expr_typ = Typ_int; expr_desc = Expr_desc_const (Const_int 0L) })
+        else
+          Action_unreachable;
     } in
     let {
       cumulation_data = (entry_block_path, end_env);

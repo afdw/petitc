@@ -191,7 +191,8 @@ int var_i]";
         "group_3::func_main::func_end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>func_end</td></tr>
         <tr><td></td></tr></table>>];
         "group_3::func_main::func_end::sink"[style = invisible];
-        "group_3::func_main::func_end" -> "group_3::func_main::func_end::sink" [label="unreachable"];
+        "group_3::func_main::func_end" -> "group_3::func_main::func_end::sink" [label="return (0
+: int)"];
         "group_3::decl_main::group_0::block_expr::group_0::instr_return::return"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>return</td></tr>
         <tr><td></td></tr></table>>];
         "group_3::decl_main::group_0::block_expr::group_0::instr_return::return::sink"[style = invisible];

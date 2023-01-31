@@ -35,11 +35,11 @@ The `Parser` module implements parsing using Menhir.
 
 ### Typechecking and CFG generation
 
-The `Typed` contains definitions of types required to represent explicitly typed program.
+The `Typed` module contains definitions of types required to represent explicitly typed program.
 
 The types named `typ` is present in both module `Parser` and module `Type`. They are isomorphic in case of such a simple language, but duplicated as in general the syntactic and semantic types might not be the same.
 
-Lexical environments have a kind of ID/name called `scope_path`. They hold the types of variables and functions in scope, as well as a list of used identifiers on the last level, which are not allowed to be reused at this same level by language rules (I believe this restriction can be lifted and that would result in a shadowing behavior).
+The `Parser` module implements typechecking. Lexical environments have a kind of ID/name called `scope_path`. They hold the types of variables and functions in scope, as well as a list of used identifiers on the last level, which are not allowed to be reused at this same level by language rules (I believe this restriction can be lifted and that would result in a shadowing behavior).
 
 The result of the typechecker is a list of non-nested functions, each of which is represented by a graph of "blocks". A block also has an ID/name, and consists of a list of expressions to execute and an action to do at the end, which can be one of:
 * Unconditional jump.
@@ -54,3 +54,9 @@ The AST expressions are simplified a bit during typechecking, notably lvalues ar
 Functions the typecheck and generate CFG for instructions accept, in addition to the AST types and lexical environments, so-called "continuations" are return the path to first (generated) block of the instruction. A continuation contains the return type of the current function and paths to blocks that need to be execute in case of normal fallthrough after the given instruction, after break or after continue.
 
 As we need to keep track of all blocks, functions and variables (which can be arbitrarily nested) to be able to provide a full list of them in the end, "cumulations" are used, which can hold an arbitrary value and lists of aforementioned objects.
+
+### Codegen
+
+The `Codegen` module implements very crude code generation by directly generating x86-64 assembly, calculating expressions using the stack.
+
+The ABI used is slightly different (arguments are always passed on the stack, additional pointers for the support of nested functions are pushed onto the stack), so there are adapters for `malloc`, `putchar` and `main`.
