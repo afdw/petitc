@@ -59,6 +59,6 @@ let main ~(stop_after : stop_after) ~(input_filename : string) ~(output_filename
       else if stop_after = Stop_after_type_graph then
         Typed.pp_program_graph output_formatter program
       else if stop_after = Stop_after_codegen then
-        Format.fprintf output_formatter "%s" (Codegen.emit_program program)
+        Format.pp_print_string output_formatter (Codegen.emit_program program)
   );
   close_out output_channel

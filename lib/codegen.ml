@@ -5,14 +5,23 @@ let emit_path (path : path) : string =
 
 let rec emit_expr (var_offsets : (path * int) list) (expr : expr) : string =
   match expr.expr_desc with
-  | Expr_desc_var path ->
-    "    leaq " ^ (string_of_int (var_offsets |> List.assoc path)) ^ "(%rbp), %rax\n" ^
+  | Expr_desc_var (path, depth_difference) ->
+    "    movq %rbp, %rax\n" ^
+    (List.init depth_difference (fun _ ->
+      "    movq 16(%rax), %rax\n"
+    ) |> String.concat "") ^
+    "    leaq " ^ (string_of_int (var_offsets |> List.assoc path)) ^ "(%rax), %rax\n" ^
     "    pushq %rax\n"
-  | Expr_desc_call (path, arg_exprs) ->
+  | Expr_desc_call (path, depth_difference, arg_exprs) ->
     let args_code = arg_exprs |> List.map (emit_expr var_offsets) |> String.concat "" in
     args_code ^
+    "    movq %rbp, %rax\n" ^
+    (List.init depth_difference (fun _ ->
+      "    movq 16(%rax), %rax\n"
+    ) |> String.concat "") ^
+    "    pushq %rax\n" ^
     "    call " ^ (path |> emit_path) ^ "\n" ^
-    "    addq $" ^ (string_of_int ((arg_exprs |> List.length) * 8)) ^ ", %rsp\n" ^
+    "    addq $" ^ (string_of_int (((arg_exprs |> List.length) + 1) * 8)) ^ ", %rsp\n" ^
     "    pushq %rax\n"
   | Expr_desc_const Const_null ->
     "    pushq $0\n"
@@ -153,10 +162,7 @@ let emit_block (var_offsets : (path * int) list) (block : block) : string =
       |> String.concat "" in
   exprs_code ^ (block.block_action |> emit_action var_offsets)
 
-let emit_func_decl (func_decl : func_decl) : string =
-  let var_offsets =
-    (func_decl.func_decl_params |> List.mapi (fun i (path, _) -> (path, (i + 2) * 8))) @
-    (func_decl.func_decl_vars |> List.mapi (fun i (path, _) -> (path, -(i + 1) * 8))) in
+let emit_func_decl (var_offsets : (path * int) list) (func_decl : func_decl) : string =
   let blocks_code =
     func_decl.func_decl_blocks
       |> List.map (fun (path, block) ->
@@ -170,10 +176,19 @@ let emit_func_decl (func_decl : func_decl) : string =
   blocks_code
 
 let emit_program (program : program) : string =
+  let var_offsets =
+    program.program_funcs
+      |> List.map (fun (_, func_decl) ->
+        (func_decl.func_decl_params |> List.mapi (fun i (path, _) ->
+          (path, ((func_decl.func_decl_params |> List.length) - i + 2) * 8))
+        ) @
+        (func_decl.func_decl_vars |> List.mapi (fun i (path, _) -> (path, -(i + 1) * 8)))
+      )
+      |> List.fold_left (@) [] in
   let funcs_code =
     program.program_funcs
       |> List.map (fun (path, func_decl) ->
-        (path |> emit_path) ^ ":\n" ^ (func_decl |> emit_func_decl)
+        (path |> emit_path) ^ ":\n" ^ (func_decl |> emit_func_decl var_offsets)
       )
       |> String.concat "\n" in
   let builtin_path = empty_path |> path_append "builtin" in
@@ -183,7 +198,7 @@ let emit_program (program : program) : string =
   (builtin_path |> path_append "func_malloc" |> emit_path) ^ ":\n" ^
   "  pushq %rbp\n" ^
   "  movq %rsp, %rbp\n" ^
-  "  movq 16(%rsp), %rdi\n" ^
+  "  movq 24(%rsp), %rdi\n" ^
   "  andq $0xfffffffffffffff0, %rsp\n" ^
   "  call malloc\n" ^
   "  movq %rbp, %rsp\n" ^
@@ -192,7 +207,7 @@ let emit_program (program : program) : string =
   (builtin_path |> path_append "func_putchar" |> emit_path) ^ ":\n" ^
   "  pushq %rbp\n" ^
   "  movq %rsp, %rbp\n" ^
-  "  movq 16(%rsp), %rdi\n" ^
+  "  movq 24(%rsp), %rdi\n" ^
   "  andq $0xfffffffffffffff0, %rsp\n" ^
   "  call putchar\n" ^
   "  movq %rbp, %rsp\n" ^

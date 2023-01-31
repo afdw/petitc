@@ -3,17 +3,20 @@
   [(group_0::func_test_1,
     { Typed.func_decl_return_typ = void; func_decl_params = [];
       func_decl_vars =
-      [(group_0::decl_test_1::group_0::block_expr::group_0::var_a, { Typed.var_decl_typ = int });
-        (group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::var_b, { Typed.var_decl_typ = int })];
+      [(group_0::decl_test_1::group_0::block_expr::group_0::var_a, { Typed.var_decl_typ = int; var_decl_depth = 1 });
+        (group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::var_b,
+         { Typed.var_decl_typ = int; var_decl_depth = 1 })
+        ];
       func_decl_blocks =
       [(group_0::func_test_1::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
         (group_0::decl_test_1::group_0::block_expr::group_0::init_a,
-         { Typed.block_exprs = [((group_0::decl_test_1::group_0::block_expr::group_0::var_a : int*) = (4 : int) : int)];
+         { Typed.block_exprs =
+           [((group_0::decl_test_1::group_0::block_expr::group_0::var_a@0 : int*) = (4 : int) : int)];
            block_action = (Typed.Action_goto group_0::decl_test_1::group_0::block_expr::group_end_0) });
         (group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::
          block_expr::group_0::instr_expr::expr,
          { Typed.block_exprs =
-           [((group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::var_b : int*) = (6 : int) : int)];
+           [((group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::var_b@0 : int*) = (6 : int) : int)];
            block_action =
            (Typed.Action_goto group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
               instr_if::then::block_expr::group_end_0)
@@ -25,7 +28,7 @@
         (group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::else::
          block_expr::group_0::instr_expr::expr,
          { Typed.block_exprs =
-           [((group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::var_b : int*) = (8 : int) : int)];
+           [((group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::var_b@0 : int*) = (8 : int) : int)];
            block_action =
            (Typed.Action_goto group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
               instr_if::else::block_expr::group_end_0)
@@ -37,7 +40,7 @@
         (group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::cond,
          { Typed.block_exprs = [];
            block_action =
-           (Typed.Action_if ((*(group_0::decl_test_1::group_0::block_expr::group_0::var_a : int*) : int), group_0::
+           (Typed.Action_if ((*(group_0::decl_test_1::group_0::block_expr::group_0::var_a@0 : int*) : int), group_0::
               decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::instr_if::then::block_expr::
               group_0::instr_expr::expr, group_0::decl_test_1::group_0::block_expr::group_0::with_a::group_1::with_b::
               group_2::instr_if::else::block_expr::group_0::instr_expr::expr))
@@ -56,22 +59,24 @@
         (group_0::decl_test_1::group_end_0,
          { Typed.block_exprs = []; block_action = (Typed.Action_goto group_0::func_test_1::func_end) })
         ];
-      func_decl_entry_block_path = group_0::decl_test_1::group_0::block_expr::group_0::init_a });
+      func_decl_entry_block_path = group_0::decl_test_1::group_0::block_expr::group_0::init_a; 
+      func_decl_depth = 1 });
     (group_1::func_test_2,
      { Typed.func_decl_return_typ = void; func_decl_params = [];
-       func_decl_vars = [(group_1::decl_test_2::group_0::block_expr::group_0::var_a, { Typed.var_decl_typ = int })];
+       func_decl_vars =
+       [(group_1::decl_test_2::group_0::block_expr::group_0::var_a, { Typed.var_decl_typ = int; var_decl_depth = 1 })];
        func_decl_blocks =
        [(group_1::func_test_2::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_1::decl_test_2::group_0::block_expr::group_0::init_a,
           { Typed.block_exprs =
-            [((group_1::decl_test_2::group_0::block_expr::group_0::var_a : int*) = (3 : int) : int)];
+            [((group_1::decl_test_2::group_0::block_expr::group_0::var_a@0 : int*) = (3 : int) : int)];
             block_action = (Typed.Action_goto group_1::decl_test_2::group_0::block_expr::group_end_0) });
          (group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_0::
           instr_expr::expr,
           { Typed.block_exprs =
-            [((group_1::decl_test_2::group_0::block_expr::group_0::var_a
-              : int*) = ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a : int*) : int) * (2 : int) : int)
-              : int)];
+            [((group_1::decl_test_2::group_0::block_expr::group_0::var_a@0
+              : int*) = ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a@0 : int*) : int) * (2 : int)
+              : int) : int)];
             block_action =
             (Typed.Action_goto group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::
                block_expr::group_end_0)
@@ -92,10 +97,11 @@
           instr_if::cond,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_if (((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a : int*) : int) == (1 : int)
-               : int), group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::
-               block_expr::group_1::instr_if::then::block_expr::group_0::instr_break::goto, group_1::decl_test_2::
-               group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_1))
+            (Typed.Action_if (
+               ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a@0 : int*) : int) == (1 : int) : int),
+               group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::
+               group_1::instr_if::then::block_expr::group_0::instr_break::goto, group_1::decl_test_2::group_0::
+               block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_1))
             });
          (group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_2::
           instr_if::then::block_expr::group_0::instr_continue::goto,
@@ -114,17 +120,18 @@
           instr_if::cond,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_if (((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a : int*) : int) == (7 : int)
-               : int), group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::
-               block_expr::group_2::instr_if::then::block_expr::group_0::instr_continue::goto, group_1::decl_test_2::
-               group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_2))
+            (Typed.Action_if (
+               ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a@0 : int*) : int) == (7 : int) : int),
+               group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::
+               group_2::instr_if::then::block_expr::group_0::instr_continue::goto, group_1::decl_test_2::group_0::
+               block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_end_2))
             });
          (group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::group_3::
           instr_expr::expr,
           { Typed.block_exprs =
-            [((group_1::decl_test_2::group_0::block_expr::group_0::var_a
-              : int*) = ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a : int*) : int) * (4 : int) : int)
-              : int)];
+            [((group_1::decl_test_2::group_0::block_expr::group_0::var_a@0
+              : int*) = ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a@0 : int*) : int) * (4 : int)
+              : int) : int)];
             block_action =
             (Typed.Action_goto group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::
                block_expr::group_end_3)
@@ -159,10 +166,11 @@
          (group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::cond,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_if (((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a : int*) : int) < (5 : int)
-               : int), group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::
-               block_expr::group_0::instr_expr::expr, group_1::decl_test_2::group_0::block_expr::group_0::with_a::
-               group_1::instr_while::end))
+            (Typed.Action_if (
+               ((*(group_1::decl_test_2::group_0::block_expr::group_0::var_a@0 : int*) : int) < (5 : int) : int),
+               group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::body::block_expr::
+               group_0::instr_expr::expr, group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::
+               instr_while::end))
             });
          (group_1::decl_test_2::group_0::block_expr::group_0::with_a::group_1::instr_while::end,
           { Typed.block_exprs = [];
@@ -177,23 +185,24 @@
          (group_1::decl_test_2::group_end_0,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_1::func_test_2::func_end) })
          ];
-       func_decl_entry_block_path = group_1::decl_test_2::group_0::block_expr::group_0::init_a });
+       func_decl_entry_block_path = group_1::decl_test_2::group_0::block_expr::group_0::init_a; 
+       func_decl_depth = 1 });
     (group_2::func_test_3,
      { Typed.func_decl_return_typ = int; func_decl_params = [];
        func_decl_vars =
-       [(group_2::decl_test_3::group_0::block_expr::group_0::var_res, { Typed.var_decl_typ = int });
+       [(group_2::decl_test_3::group_0::block_expr::group_0::var_res, { Typed.var_decl_typ = int; var_decl_depth = 1 });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i,
-          { Typed.var_decl_typ = int })
+          { Typed.var_decl_typ = int; var_decl_depth = 1 })
          ];
        func_decl_blocks =
        [(group_2::func_test_3::func_end, { Typed.block_exprs = []; block_action = Typed.Action_unreachable });
          (group_2::decl_test_3::group_0::block_expr::group_0::init_res,
           { Typed.block_exprs =
-            [((group_2::decl_test_3::group_0::block_expr::group_0::var_res : int*) = (0 : int) : int)];
+            [((group_2::decl_test_3::group_0::block_expr::group_0::var_res@0 : int*) = (0 : int) : int)];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_0) });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::init_i,
           { Typed.block_exprs =
-            [((group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i@0
               : int*) = (0 : int) : int)];
             block_action =
             (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::
@@ -202,12 +211,12 @@
          (group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::
           instr_for::body::block_expr::group_0::instr_expr::expr,
           { Typed.block_exprs =
-            [((group_2::decl_test_3::group_0::block_expr::group_0::var_res
-              : int*) = ((*(group_2::decl_test_3::group_0::block_expr::group_0::var_res : int*)
+            [((group_2::decl_test_3::group_0::block_expr::group_0::var_res@0
+              : int*) = ((*(group_2::decl_test_3::group_0::block_expr::group_0::var_res@0 : int*)
                          : int) + (builtin::
-                                   func_putchar((*(group_2::decl_test_3::group_0::block_expr::group_0::with_res::
-                                                   group_1::block_expr::group_0::var_i
-                                                 : int*)
+                                   func_putchar@0((*(group_2::decl_test_3::group_0::block_expr::group_0::with_res::
+                                                     group_1::block_expr::group_0::var_i@0
+                                                   : int*)
                                    : int))
                          : int)
               : int) : int)];
@@ -227,7 +236,7 @@
           { Typed.block_exprs = [];
             block_action =
             (Typed.Action_if (
-               ((*(group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i
+               ((*(group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i@0
                  : int*)
                 : int) < (10 : int)
                : int), group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::
@@ -237,7 +246,7 @@
          (group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::
           instr_for::steps,
           { Typed.block_exprs =
-            [((group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i@0
               : int*)+1+ : int)];
             block_action =
             (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::
@@ -262,7 +271,7 @@
          (group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_2::instr_return::return,
           { Typed.block_exprs = [];
             block_action =
-            (Typed.Action_return (Some (*(group_2::decl_test_3::group_0::block_expr::group_0::var_res : int*) : int)))
+            (Typed.Action_return (Some (*(group_2::decl_test_3::group_0::block_expr::group_0::var_res@0 : int*) : int)))
             });
          (group_2::decl_test_3::group_0::block_expr::group_end_0,
           { Typed.block_exprs = [];
@@ -281,7 +290,8 @@
          (group_2::decl_test_3::group_end_0,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_2::func_test_3::func_end) })
          ];
-       func_decl_entry_block_path = group_2::decl_test_3::group_0::block_expr::group_0::init_res });
+       func_decl_entry_block_path = group_2::decl_test_3::group_0::block_expr::group_0::init_res; 
+       func_decl_depth = 1 });
     (group_3::func_main,
      { Typed.func_decl_return_typ = int; func_decl_params = []; func_decl_vars = [];
        func_decl_blocks =
@@ -293,6 +303,7 @@
          (group_3::decl_main::group_end_0,
           { Typed.block_exprs = []; block_action = (Typed.Action_goto group_3::func_main::func_end) })
          ];
-       func_decl_entry_block_path = group_3::decl_main::group_0::block_expr::group_0::instr_return::return })
+       func_decl_entry_block_path = group_3::decl_main::group_0::block_expr::group_0::instr_return::return;
+       func_decl_depth = 1 })
     ]
   }

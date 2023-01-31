@@ -9,11 +9,33 @@ let rec typeck_ast_typ (ast_typ : Ast.typ) : typ =
   | Ast.Typ_bool -> Typ_bool
   | Ast.Typ_pointer ast_typ -> Typ_pointer (ast_typ |> typeck_ast_typ)
 
+type binding =
+  | Binding_var of { path : path; typ : typ; depth : int }
+  | Binding_func of { path : path; return_typ : typ; param_typs : typ list; depth : int }
+
+let pp_binding (formatter : Format.formatter) (binding : binding) : unit =
+  match binding with
+  | Binding_var { path; typ; depth } ->
+    Format.fprintf formatter "%a %a@@%d"
+      pp_typ typ
+      pp_path path
+      depth
+  | Binding_func { path; return_typ; param_typs; depth } ->
+    Format.fprintf formatter "%a %a@@%d(%a)"
+      pp_typ return_typ
+      pp_path path
+      depth
+      (Format.pp_print_list ~pp_sep:(fun formatter () -> Format.fprintf formatter ",@ ") pp_typ) param_typs
+
+let show_binding (binding : binding) : string =
+  Format.asprintf "%a" pp_binding binding
+
 type env = {
   env_scope_path : path;
   env_bindings : (string * binding) list;
   env_used_idents : (string * (Lexing.position [@printer Utils.pp_position])) list;
   env_is_function_scope : bool;
+  env_depth : int;
 } [@@deriving show]
 
 let cast (typ : typ) (expr : expr) : expr =
@@ -27,12 +49,12 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
     match env.env_bindings |> List.assoc_opt var_name with
     | None ->
       raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "variable `%s` not found" var_name))
-    | Some (Binding_var { path; typ }) ->
+    | Some (Binding_var { path; typ; depth }) ->
       {
         expr_typ = typ;
         expr_desc = Expr_desc_un_op (
           Un_op_deref,
-          { expr_typ = Typ_pointer typ; expr_desc = Expr_desc_var path }
+          { expr_typ = Typ_pointer typ; expr_desc = Expr_desc_var (path, env.env_depth - depth) }
         );
       }
     | Some _ ->
@@ -42,7 +64,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
     match env.env_bindings |> List.assoc_opt var_name with
     | None ->
       raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "function `%s` not found" var_name))
-    | Some (Binding_func { path; return_typ; param_typs }) ->
+    | Some (Binding_func { path; return_typ; param_typs; depth }) ->
       let args = arg_ast_exprs |> List.map (typeck_ast_expr env) in
       if List.length args <> List.length param_typs then
         raise (Error (
@@ -61,7 +83,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
           ));
         converted_args @ [cast expected_typ arg]
       ) [] (param_typs |> List.mapi (fun i typ -> (i, typ))) args in
-      { expr_typ = return_typ; expr_desc = Expr_desc_call (path, casted_args) }
+      { expr_typ = return_typ; expr_desc = Expr_desc_call (path, env.env_depth - depth, casted_args) }
     | Some _ ->
       raise (Error (fst ast_expr.expr_loc, env.env_scope_path, Format.asprintf "`%s` is not a function" var_name))
   )
@@ -182,7 +204,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       raise (Error (
         fst ast_expr.expr_loc,
         env.env_scope_path,
-        Format.asprintf "arguments to the `%s` operator@ has types %a and %a which are void or not compatible"
+        Format.asprintf "arguments to the `%s` operator@ have types %a and %a which are void or not compatible"
           (
             match ast_bin_op with
             | Ast.Bin_op_eq -> "=="
@@ -300,7 +322,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
       raise (Error (
         fst ast_expr.expr_loc,
         env.env_scope_path,
-        Format.asprintf "arguments to the `%s` operator@ has types %a and %a which are not compatible"
+        Format.asprintf "arguments to the `%s` operator@ have types %a and %a which are not compatible"
           (
             match ast_bin_op with
             | Ast.Bin_op_add -> "+"
@@ -325,7 +347,7 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
         raise (Error (
           fst ast_expr.expr_loc,
           env.env_scope_path,
-          Format.asprintf "arguments to the assignement operator@ has types %a and %a which are not compatible"
+          Format.asprintf "arguments to the assignement operator@ have types %a and %a which are not compatible"
             pp_typ expr_1.expr_typ
             pp_typ expr_2.expr_typ
         ));
@@ -620,7 +642,10 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
     let extended_env = {
       env with
       env_bindings =
-        (ast_func_decl.func_decl_name, Binding_func { path; return_typ; param_typs }) :: env.env_bindings;
+        (
+          ast_func_decl.func_decl_name,
+          Binding_func { path; return_typ; param_typs; depth = env.env_depth }
+        ) :: env.env_bindings;
       env_used_idents = (ast_func_decl.func_decl_name, fst ast_func_decl.func_decl_loc) :: env.env_used_idents;
     } in
     let inner_env = {
@@ -628,6 +653,7 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
       env_scope_path = env.env_scope_path |> path_append ("decl_" ^ ast_func_decl.func_decl_name);
       env_used_idents = [];
       env_is_function_scope = true;
+      env_depth = env.env_depth + 1;
     } in
     let param_inst_decls = ast_func_decl.func_decl_params |> List.map (fun (ast_param : Ast.param) ->
       Ast.Instr_decl_var {
@@ -665,6 +691,7 @@ and typeck_ast_func_decl (env : env) (ast_func_decl : Ast.func_decl) : env cumul
       func_decl_vars = vars |> List.filter (fun (path, _) -> not (param_paths |> List.mem path));
       func_decl_blocks = (func_end_block_path, func_end_block) :: blocks;
       func_decl_entry_block_path = entry_block_path;
+      func_decl_depth = env.env_depth + 1;
     } in
     {
       (cumulation_of_data extended_env) with
@@ -696,7 +723,8 @@ and typeck_ast_var_decl (env : env) (next_block_path : path)
     let extended_env = {
       env with
       env_scope_path = env.env_scope_path |> path_append ("with_" ^ ast_var_decl.var_decl_name);
-      env_bindings = (ast_var_decl.var_decl_name, Binding_var { path; typ }) :: env.env_bindings;
+      env_bindings =
+        (ast_var_decl.var_decl_name, Binding_var { path; typ; depth = env.env_depth }) :: env.env_bindings;
       env_used_idents = (ast_var_decl.var_decl_name, fst ast_var_decl.var_decl_loc) :: env.env_used_idents;
     } in
     let inner_env = {
@@ -722,7 +750,7 @@ and typeck_ast_var_decl (env : env) (next_block_path : path)
           Bin_op_assign,
           {
             expr_typ = Typ_pointer typ;
-            expr_desc = Expr_desc_var path;
+            expr_desc = Expr_desc_var (path, 0);
           },
           init_expr
         )
@@ -738,6 +766,7 @@ and typeck_ast_var_decl (env : env) (next_block_path : path)
       } in
     let var_decl = {
       var_decl_typ = typ;
+      var_decl_depth = env.env_depth;
     } in
     {
       result_cumulation with
@@ -835,6 +864,7 @@ let typeck_ast_file (ast_file : Ast.file) : program =
           path = builtin_path |> path_append "func_malloc";
           return_typ = Typ_pointer Typ_void;
           param_typs = [Typ_int];
+          depth = 1;
         }
       );
       (
@@ -843,11 +873,13 @@ let typeck_ast_file (ast_file : Ast.file) : program =
           path = builtin_path |> path_append "func_putchar";
           return_typ = Typ_int;
           param_typs = [Typ_int];
+          depth = 1;
         }
       );
     ];
     env_used_idents = [("malloc", builtin_position); ("putchar", builtin_position)];
     env_is_function_scope = false;
+    env_depth = 0;
   } in
   let result_cumulation = ast_file.file_func_decls
     |> List.map (fun func_decl -> Ast.Instr_decl_func func_decl)
@@ -861,7 +893,7 @@ let typeck_ast_file (ast_file : Ast.file) : program =
   match env.env_bindings |> List.assoc_opt "main" with
   | None ->
     raise (Error (fst ast_file.file_loc, env.env_scope_path, "`main` function not found"))
-  | Some (Binding_func { path; return_typ = Typ_int; param_typs = []; }) ->
+  | Some (Binding_func { path; return_typ = Typ_int; param_typs = []; _ }) ->
     {
       program_main_func_path = path;
       program_funcs = result_cumulation.cumulation_funcs;

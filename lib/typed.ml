@@ -58,25 +58,6 @@ let typ_equivalent (typ_1 : typ) (typ_2 : typ) : bool =
   | Typ_pointer _, Typ_pointer Typ_void -> true
   | _, _ -> false
 
-type binding =
-  | Binding_var of { path : path; typ : typ }
-  | Binding_func of { path : path; return_typ : typ; param_typs : typ list }
-
-let pp_binding (formatter : Format.formatter) (binding : binding) : unit =
-  match binding with
-  | Binding_var { path; typ } ->
-    Format.fprintf formatter "%a %a"
-      pp_typ typ
-      pp_path path
-  | Binding_func { path; return_typ; param_typs } ->
-    Format.fprintf formatter "%a %a(%a)"
-      pp_typ return_typ
-      pp_path path
-      (Format.pp_print_list ~pp_sep:(fun formatter () -> Format.fprintf formatter ",@ ") pp_typ) param_typs
-
-let show_binding (binding : binding) : string =
-  Format.asprintf "%a" pp_binding binding
-
 type const =
   | Const_null
   | Const_int of int64
@@ -110,8 +91,8 @@ type bin_op =
   [@@deriving show]
 
 type expr_desc =
-  | Expr_desc_var of path
-  | Expr_desc_call of path * expr list
+  | Expr_desc_var of path * int
+  | Expr_desc_call of path * int * expr list
   | Expr_desc_const of const
   | Expr_desc_un_op of un_op * expr
   | Expr_desc_bin_op of bin_op * expr * expr
@@ -123,10 +104,11 @@ and expr = {
 
 let rec pp_expr_desc (formatter : Format.formatter) (expr_desc : expr_desc) : unit =
   match expr_desc with
-  | Expr_desc_var path -> Format.fprintf formatter "%a" pp_path path
-  | Expr_desc_call (path, arg_exprs) ->
-    Format.fprintf formatter "%a(%a)"
+  | Expr_desc_var (path, level_difference) -> Format.fprintf formatter "%a@@%d" pp_path path level_difference
+  | Expr_desc_call (path, depth_difference, arg_exprs) ->
+    Format.fprintf formatter "%a@@%d(%a)"
     pp_path path
+    depth_difference
     (
       Format.pp_print_list
         ~pp_sep:(fun formatter () -> Format.fprintf formatter ",@ ")
@@ -198,6 +180,7 @@ type block = {
 
 type var_decl = {
   var_decl_typ : typ;
+  var_decl_depth : int;
 } [@@deriving show]
 
 type func_decl = {
@@ -206,6 +189,7 @@ type func_decl = {
   func_decl_vars : (path * var_decl) list;
   func_decl_blocks : (path * block) list;
   func_decl_entry_block_path : path;
+  func_decl_depth : int;
 } [@@deriving show]
 
 type program = {

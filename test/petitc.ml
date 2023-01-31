@@ -59,3 +59,6 @@ let () =
 
 let () =
   test_compilation ~stop_after:Stop_after_codegen ~input_filename:"../../../test/codegen_simple.c"
+
+let () =
+  test_compilation ~stop_after:Stop_after_codegen ~input_filename:"../../../test/codegen_nested.c"
