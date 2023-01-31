@@ -1,4 +1,5 @@
-{ Typed.program_funcs =
+{ Typed.program_main_func_path = group_3::func_main;
+  program_funcs =
   [(group_0::func_test_1,
     { Typed.func_decl_return_typ = void; func_decl_params = [];
       func_decl_vars =
@@ -237,7 +238,7 @@
           instr_for::steps,
           { Typed.block_exprs =
             [((group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::var_i
-              : int*)++ : int)];
+              : int*)+1+ : int)];
             block_action =
             (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::
                group_0::with_i::group_1::instr_for::cond)

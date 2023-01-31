@@ -154,7 +154,7 @@ int var_i]";
         "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::end" [label="((*(var_i : int*) : int) < (10 : int)
 : int) ?= false"];
         "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::steps"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>steps</td></tr>
-        <tr><td></td></tr><tr><td>((var_i : int*)++<br/>
+        <tr><td></td></tr><tr><td>((var_i : int*)+1+<br/>
 : int)</td></tr></table>>];
         "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::steps" -> "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::cond";
         "group_2::decl_test_3::group_0::block_expr::group_0::with_res::group_1::block_expr::group_0::with_i::group_1::instr_for::end"[shape=plaintext; label = <<table border="0" cellborder="1" cellspacing="0"><tr><td>end</td></tr>

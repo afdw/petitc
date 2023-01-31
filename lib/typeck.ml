@@ -116,15 +116,16 @@ let rec typeck_ast_expr (env : env) (ast_expr : Ast.expr) : expr =
     let expr_1 = ast_expr_1 |> typeck_ast_expr env in
     match expr_as_lvalue expr_1 with
     | Some expr_1_pointer ->
+      let n = if typ_equivalent Typ_int expr_1.expr_typ then 1 else 8 in
       {
         expr_typ = expr_1.expr_typ;
         expr_desc = Expr_desc_un_op (
           (
             match ast_un_op with
-            | Ast.Un_op_pre_incr -> Un_op_pre_incr
-            | Ast.Un_op_pre_decr -> Un_op_pre_decr
-            | Ast.Un_op_post_incr -> Un_op_post_incr
-            | Ast.Un_op_post_decr -> Un_op_post_decr
+            | Ast.Un_op_pre_incr -> Un_op_pre_incr n
+            | Ast.Un_op_pre_decr -> Un_op_pre_decr n
+            | Ast.Un_op_post_incr -> Un_op_post_incr n
+            | Ast.Un_op_post_decr -> Un_op_post_decr n
             | _ -> assert false
           ),
           expr_1_pointer
@@ -860,8 +861,9 @@ let typeck_ast_file (ast_file : Ast.file) : program =
   match env.env_bindings |> List.assoc_opt "main" with
   | None ->
     raise (Error (fst ast_file.file_loc, env.env_scope_path, "`main` function not found"))
-  | Some (Binding_func { return_typ = Typ_int; param_typs = []; _ }) ->
+  | Some (Binding_func { path; return_typ = Typ_int; param_typs = []; }) ->
     {
+      program_main_func_path = path;
       program_funcs = result_cumulation.cumulation_funcs;
     }
   | Some binding ->

@@ -73,8 +73,8 @@ typ:
 expr_desc:
   | var_name = IDENT { Expr_desc_var var_name }
   | func_name = IDENT; LPAREN; args = separated_list(COMMA, expr); RPAREN { Expr_desc_call (func_name, args) }
-  | TRUE { Expr_desc_const Const_false }
-  | FALSE { Expr_desc_const Const_true }
+  | TRUE { Expr_desc_const Const_true }
+  | FALSE { Expr_desc_const Const_false }
   | NULL { Expr_desc_const Const_null }
   | n = LIT { Expr_desc_const (Const_int n) }
   | SIZEOF; LPAREN; typ = typ; RPAREN { Expr_desc_const (Const_sizeof typ) }

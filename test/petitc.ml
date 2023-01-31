@@ -56,3 +56,6 @@ let () =
 
 let () =
   test_compilation ~stop_after:Stop_after_type_graph ~input_filename:"../../../test/type_instructions.c"
+
+let () =
+  test_compilation ~stop_after:Stop_after_codegen ~input_filename:"../../../test/codegen_simple.c"

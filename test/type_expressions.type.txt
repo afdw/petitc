@@ -1,4 +1,5 @@
-{ Typed.program_funcs =
+{ Typed.program_main_func_path = group_8::func_main;
+  program_funcs =
   [(group_0::func_test_1,
     { Typed.func_decl_return_typ = void; func_decl_params = [];
       func_decl_vars =
@@ -82,11 +83,11 @@
        [(group_2::func_test_3::func_end, { Typed.block_exprs = []; block_action = (Typed.Action_return None) });
          (group_2::decl_test_3::group_0::block_expr::group_0::init_x,
           { Typed.block_exprs =
-            [((group_2::decl_test_3::group_0::block_expr::group_0::var_x : bool*) = (0 : bool) : bool)];
+            [((group_2::decl_test_3::group_0::block_expr::group_0::var_x : bool*) = (1 : bool) : bool)];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_0) });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::init_y,
           { Typed.block_exprs =
-            [((group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::var_y : bool*) = (1 : bool) : bool)
+            [((group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::var_y : bool*) = (0 : bool) : bool)
               ];
             block_action = (Typed.Action_goto group_2::decl_test_3::group_0::block_expr::group_end_1) });
          (group_2::decl_test_3::group_0::block_expr::group_0::with_x::group_1::with_y::group_2::init_z,
@@ -183,8 +184,8 @@
           { Typed.block_exprs =
             [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
                with_x::group_4::var_e
-              : void****) = (--(group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
-                                with_c::group_3::var_x
+              : void****) = (-8-(group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+                                 with_c::group_3::var_x
                              : void****)
               : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_4) });
@@ -193,8 +194,8 @@
           { Typed.block_exprs =
             [((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
                with_x::group_4::with_e::group_5::var_f
-              : void****) = (--(group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
-                                with_c::group_3::var_x
+              : void****) = (-8-(group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
+                                 with_c::group_3::var_x
                              : void****)
               : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_5) });
@@ -205,7 +206,7 @@
                with_x::group_4::with_e::group_5::with_f::group_6::var_g
               : void****) = ((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
                               with_c::group_3::var_x
-                             : void****)++
+                             : void****)+8+
               : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_6) });
          (group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::with_c::group_3::
@@ -215,7 +216,7 @@
                with_x::group_4::with_e::group_5::with_f::group_6::with_g::group_7::var_h
               : void****) = ((group_3::decl_test_4::group_0::block_expr::group_0::with_a::group_1::with_b::group_2::
                               with_c::group_3::var_x
-                             : void****)++
+                             : void****)+8+
               : void***) : void***)];
             block_action = (Typed.Action_goto group_3::decl_test_4::group_0::block_expr::group_end_7) });
          (group_3::decl_test_4::group_0::block_expr::group_end_0,

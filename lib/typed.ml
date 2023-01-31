@@ -85,10 +85,10 @@ type const =
 type un_op =
   | Un_op_nonnull
   | Un_op_not
-  | Un_op_pre_incr
-  | Un_op_pre_decr
-  | Un_op_post_incr
-  | Un_op_post_decr
+  | Un_op_pre_incr of int
+  | Un_op_pre_decr of int
+  | Un_op_post_incr of int
+  | Un_op_post_decr of int
   | Un_op_deref
   [@@deriving show]
 
@@ -136,10 +136,10 @@ let rec pp_expr_desc (formatter : Format.formatter) (expr_desc : expr_desc) : un
   | Expr_desc_const (Const_int n) -> Format.fprintf formatter "%Ld" n
   | Expr_desc_un_op (Un_op_nonnull, expr_1) -> Format.fprintf formatter "?%a" pp_expr expr_1
   | Expr_desc_un_op (Un_op_not, expr_1) -> Format.fprintf formatter "!%a" pp_expr expr_1
-  | Expr_desc_un_op (Un_op_pre_incr, expr_1) -> Format.fprintf formatter "--%a" pp_expr expr_1
-  | Expr_desc_un_op (Un_op_pre_decr, expr_1) -> Format.fprintf formatter "--%a" pp_expr expr_1
-  | Expr_desc_un_op (Un_op_post_incr, expr_1) -> Format.fprintf formatter "%a++" pp_expr expr_1
-  | Expr_desc_un_op (Un_op_post_decr, expr_1) -> Format.fprintf formatter "%a++" pp_expr expr_1
+  | Expr_desc_un_op (Un_op_pre_incr n, expr_1) -> Format.fprintf formatter "-%d-%a" n pp_expr expr_1
+  | Expr_desc_un_op (Un_op_pre_decr n, expr_1) -> Format.fprintf formatter "-%d-%a" n pp_expr expr_1
+  | Expr_desc_un_op (Un_op_post_incr n, expr_1) -> Format.fprintf formatter "%a+%d+" pp_expr expr_1 n
+  | Expr_desc_un_op (Un_op_post_decr n, expr_1) -> Format.fprintf formatter "%a+%d+" pp_expr expr_1 n
   | Expr_desc_un_op (Un_op_deref, expr_1) -> Format.fprintf formatter "*%a" pp_expr expr_1
   | Expr_desc_bin_op (Bin_op_eq, expr_1, expr_2) ->
     Format.fprintf formatter "%a == %a" pp_expr expr_1 pp_expr expr_2
@@ -209,6 +209,7 @@ type func_decl = {
 } [@@deriving show]
 
 type program = {
+  program_main_func_path : path;
   program_funcs : (path * func_decl) list;
 } [@@deriving show]
 
